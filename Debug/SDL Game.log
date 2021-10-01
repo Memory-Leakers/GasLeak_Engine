@@ -1,0 +1,16 @@
+﻿  Application.cpp
+  Log.cpp
+  Main.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\crtdbg.h(307,1): warning C4005: '_malloca': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\malloc.h(124): message : see previous definition of '_malloca'
+  ModuleAudio.cpp
+  ModuleInput.cpp
+  ModulePhysics.cpp
+  ModulePlayer.cpp
+  ModuleRender.cpp
+  ModuleSceneIntro.cpp
+  ModuleTextures.cpp
+  ModuleWindow.cpp
+  Generating Code...
+  LINK : C:\Users\Robert Recordà Illas\Documents\GitHub\GasLeak\Debug\Physics 2 Class 1 Handout.exe not found or not built by the last incremental link; performing full link
+  SDL Game.vcxproj -> C:\Users\Robert Recordà Illas\Documents\GitHub\GasLeak\Debug\Physics 2 Class 1 Handout.exe
