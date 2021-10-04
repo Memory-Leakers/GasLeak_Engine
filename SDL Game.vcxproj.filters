@@ -1,125 +1,120 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{727562dc-c3fb-47b3-928f-26174066a11c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Game">
-      <UniqueIdentifier>{fe466319-73d4-4460-9f8c-902a9130ed28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{4b47a299-dff5-496c-b3b2-f2cc7f94b1a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game">
-      <UniqueIdentifier>{2de0a43f-5643-4731-af3f-8fed29f98fa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Tools">
-      <UniqueIdentifier>{97c4111e-b102-4ba8-9053-6f07ccbbe3d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Modules">
-      <UniqueIdentifier>{0ed3666d-c730-4902-86e5-74fee8ad888d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Modules">
-      <UniqueIdentifier>{73dd3dd8-1e90-4965-9a32-967c50daaa33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Application">
-      <UniqueIdentifier>{a4c32a2f-d9e3-4264-8eb1-68cbdeefdd33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Application">
-      <UniqueIdentifier>{2f48689e-1890-4489-b069-c786f44843bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Tools">
-      <UniqueIdentifier>{7d422d87-5ab1-4344-92e6-7e675e327326}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Source\Application.cpp">
+      <Filter>SourceFiles\Engine\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Log.cpp">
+      <Filter>SourceFiles\Engine\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>SourceFiles\Engine\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleAudio.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleInput.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModulePhysics.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModulePlayer.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleRender.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleSceneIntro.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleTextures.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleWindow.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="p2Point.h">
-      <Filter>Header Files\Engine\Tools</Filter>
+    <ClInclude Include="Source\Application.h">
+      <Filter>HeaderFiles\Engine\Application</Filter>
     </ClInclude>
-    <ClInclude Include="p2DynArray.h">
-      <Filter>Header Files\Engine\Tools</Filter>
+    <ClInclude Include="Source\Globals.h">
+      <Filter>HeaderFiles\Engine\Application</Filter>
     </ClInclude>
-    <ClInclude Include="p2List.h">
-      <Filter>Header Files\Engine\Tools</Filter>
+    <ClInclude Include="Source\MemLeaks.h">
+      <Filter>HeaderFiles\Engine\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>HeaderFiles\Engine\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleAudio.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\Module.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleInput.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModuleAudio.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModulePhysics.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModuleInput.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModulePlayer.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModulePhysics.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleRender.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModulePlayer.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneIntro.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModuleRender.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleTextures.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModuleTextures.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleWindow.h">
-      <Filter>Header Files\Engine\Modules</Filter>
+    <ClInclude Include="Source\ModuleWindow.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files\Engine\Application</Filter>
+    <ClInclude Include="Source\ModuleSceneIntro.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Header Files\Engine\Application</Filter>
+    <ClInclude Include="Source\p2DynArray.h">
+      <Filter>HeaderFiles\Engine\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="MemLeaks.h">
-      <Filter>Header Files\Engine\Application</Filter>
+    <ClInclude Include="Source\p2Point.h">
+      <Filter>HeaderFiles\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\p2List.h">
+      <Filter>HeaderFiles\Engine\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source Files\Engine\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files\Engine\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleAudio.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleInput.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModulePhysics.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModulePlayer.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleRender.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleSceneIntro.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleTextures.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleWindow.cpp">
-      <Filter>Source Files\Engine\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Source Files\Engine\Tools</Filter>
-    </ClCompile>
+    <Filter Include="SourceFiles">
+      <UniqueIdentifier>{acea116e-0434-4eed-bb7c-1e0d54b9b844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Engine">
+      <UniqueIdentifier>{ba7f6d57-6773-448d-be69-1d5ad3efafb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Engine\Application">
+      <UniqueIdentifier>{cebad247-0147-4b48-9ba2-091aff9234a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Engine\Modules">
+      <UniqueIdentifier>{53bee521-177f-4b1f-b212-33fe2921e538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Engine\Tools">
+      <UniqueIdentifier>{cd52fadd-93a4-4dc0-95e8-d9cabfcea7d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles">
+      <UniqueIdentifier>{2937d486-6e6d-4b67-b5b0-5ec3aebacbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\Engine">
+      <UniqueIdentifier>{ff697247-3ebf-4c58-9d87-bc4abebb8a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\Engine\Application">
+      <UniqueIdentifier>{cf766574-8c47-43fe-ad9e-b99c30b17acf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\Engine\Modules">
+      <UniqueIdentifier>{bce7aaa8-cb60-456b-90c0-9f3573b92afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\Engine\Tools">
+      <UniqueIdentifier>{63790ed0-e705-4cea-a5ea-ae468cc0a9b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
