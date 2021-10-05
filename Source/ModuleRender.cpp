@@ -48,7 +48,7 @@ UpdateStatus ModuleRender::PreUpdate()
 // Update: debug camera
 UpdateStatus ModuleRender::Update()
 {
-	/*
+	
 	int speed = 3;
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -62,7 +62,7 @@ UpdateStatus ModuleRender::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->renderer->camera.x -= speed;
-	*/
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -204,4 +204,11 @@ bool ModuleRender::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 
 	}
 
 	return ret;
+}
+
+void ModuleRender::CameraMove(iPoint pos)
+{
+	camera.x = pos.x - (SCREEN_WIDTH / 2);	//	Camera position = target position
+
+	camera.y = pos.y;
 }

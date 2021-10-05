@@ -84,6 +84,9 @@
     <ClInclude Include="Source\p2List.h">
       <Filter>HeaderFiles\Engine\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Point.h">
+      <Filter>HeaderFiles\Engine\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SourceFiles">

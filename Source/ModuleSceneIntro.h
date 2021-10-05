@@ -49,10 +49,16 @@ public:
 
 	bool Start();
 	UpdateStatus Update();
+	UpdateStatus PostUpdate();
 	bool CleanUp();
 
 public:
-
+	//Borrar
+	SDL_Rect plant; 
+	SDL_Rect ground;
+	SDL_Rect player;
+	
+	//Borrar
 	SDL_Texture* graphics;
 	PhysBody* background;
 

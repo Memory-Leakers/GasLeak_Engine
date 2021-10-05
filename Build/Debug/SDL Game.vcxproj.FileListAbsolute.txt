@@ -2,3 +2,5 @@ C:\Users\ADRIA\Desktop\GasLeak_Engine-main\GasLeak_Engine\Debug\GasLeak 2D.exe
 C:\Users\ADRIA\Desktop\GasLeak_Engine-main\GasLeak_Engine\Debug\GasLeak 2D.pdb
 C:\Users\ADRIA\Desktop\GasLeak_Engine-main\GasLeak_Engine\Build\Debug\GasLeak 2D.exe
 C:\Users\ADRIA\Desktop\GasLeak_Engine-main\GasLeak_Engine\Build\Debug\GasLeak 2D.pdb
+C:\Users\banus\OneDrive\Documentos\GitHub\GasLeak_Engine\Build\Debug\GasLeak 2D.exe
+C:\Users\banus\OneDrive\Documentos\GitHub\GasLeak_Engine\Build\Debug\GasLeak 2D.pdb
