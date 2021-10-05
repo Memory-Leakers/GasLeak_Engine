@@ -54,9 +54,10 @@ public:
 
 public:
 	//Borrar
-	SDL_Rect plant; 
+	/*SDL_Rect plant; 
 	SDL_Rect ground;
 	SDL_Rect player;
+	iPoint playerCenter;*/
 	
 	//Borrar
 	SDL_Texture* graphics;
