@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _MODULE_H_
+#define _MODULE_H_
+
+#include "Globals.h"
 
 class Application;
 class PhysBody;
@@ -9,6 +12,7 @@ private :
 	bool enabled;
 
 public:
+
 	Application* App;
 
 	Module(Application* parent, bool start_enabled = true) : App(parent), enabled(start_enabled)
@@ -73,3 +77,5 @@ public:
 	virtual void OnCollision(PhysBody* body1, PhysBody* body2)
 	{ }
 };
+
+#endif

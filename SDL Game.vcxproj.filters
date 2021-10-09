@@ -25,13 +25,19 @@
     <ClCompile Include="Source\ModuleRender.cpp">
       <Filter>SourceFiles\Engine\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ModuleSceneIntro.cpp">
-      <Filter>SourceFiles\Engine\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ModuleTextures.cpp">
       <Filter>SourceFiles\Engine\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\ModuleWindow.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleScene.cpp">
+      <Filter>SourceFiles\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene.cpp">
+      <Filter>SourceFiles\Engine\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneIntro.cpp">
       <Filter>SourceFiles\Engine\Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,9 +78,6 @@
     <ClInclude Include="Source\ModuleWindow.h">
       <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ModuleSceneIntro.h">
-      <Filter>HeaderFiles\Engine\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Source\p2DynArray.h">
       <Filter>HeaderFiles\Engine\Tools</Filter>
     </ClInclude>
@@ -86,6 +89,15 @@
     </ClInclude>
     <ClInclude Include="Source\Point.h">
       <Filter>HeaderFiles\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModuleScene.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>HeaderFiles\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneIntro.h">
+      <Filter>HeaderFiles\Engine\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

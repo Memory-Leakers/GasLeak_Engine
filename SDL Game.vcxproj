@@ -21,13 +21,15 @@
     <ClInclude Include="Source\ModulePhysics.h" />
     <ClInclude Include="Source\ModulePlayer.h" />
     <ClInclude Include="Source\ModuleRender.h" />
-    <ClInclude Include="Source\ModuleSceneIntro.h" />
+    <ClInclude Include="Source\ModuleScene.h" />
+    <ClInclude Include="Source\SceneIntro.h" />
     <ClInclude Include="Source\ModuleTextures.h" />
     <ClInclude Include="Source\ModuleWindow.h" />
     <ClInclude Include="Source\p2DynArray.h" />
     <ClInclude Include="Source\p2List.h" />
     <ClInclude Include="Source\p2Point.h" />
     <ClInclude Include="Source\Point.h" />
+    <ClInclude Include="Source\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
@@ -38,9 +40,11 @@
     <ClCompile Include="Source\ModulePhysics.cpp" />
     <ClCompile Include="Source\ModulePlayer.cpp" />
     <ClCompile Include="Source\ModuleRender.cpp" />
-    <ClCompile Include="Source\ModuleSceneIntro.cpp" />
+    <ClCompile Include="Source\ModuleScene.cpp" />
+    <ClCompile Include="Source\SceneIntro.cpp" />
     <ClCompile Include="Source\ModuleTextures.cpp" />
     <ClCompile Include="Source\ModuleWindow.cpp" />
+    <ClCompile Include="Source\Scene.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}</ProjectGuid>

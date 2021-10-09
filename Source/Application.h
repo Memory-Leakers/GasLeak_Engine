@@ -10,7 +10,8 @@
 #include "ModuleAudio.h"
 #include "ModulePlayer.h"
 #include "ModulePhysics.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene.h"
+
 
 
 class Application
@@ -22,7 +23,6 @@ public:
 	ModuleInput* input;
 	ModuleAudio* audio;
 	ModulePlayer* player;
-	ModuleSceneIntro* scene_intro;
 	ModulePhysics* physics;
 
 private:

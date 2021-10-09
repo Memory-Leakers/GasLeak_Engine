@@ -1,2 +1,16 @@
-﻿  ModuleSceneIntro.cpp
-  SDL Game.vcxproj -> C:\Users\banus\OneDrive\Documentos\GitHub\GasLeak_Engine\\Build\Debug\GasLeak 2D.exe
+﻿  Application.cpp
+  Main.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\crtdbg.h(303,1): warning C4005: '_malloca': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\malloc.h(122): message : vea la definición anterior de '_malloca'
+  ModuleAudio.cpp
+  ModuleInput.cpp
+  ModulePhysics.cpp
+  ModulePlayer.cpp
+  ModuleRender.cpp
+  ModuleScene.cpp
+  SceneIntro.cpp
+  ModuleTextures.cpp
+  ModuleWindow.cpp
+  Scene.cpp
+  Generando código...
+  SDL Game.vcxproj -> J:\Escritorio_2\CITM\FisicaII\GasLeak_Engine\Build\Debug\GasLeak 2D.exe
