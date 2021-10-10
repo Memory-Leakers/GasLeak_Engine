@@ -7,7 +7,7 @@
 *.o
 *.obj
 */.vs
-*/GasLeak 2D.tlog
+*/Build
 
 # Precompiled Headers
 *.gch
