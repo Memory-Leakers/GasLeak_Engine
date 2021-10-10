@@ -44,3 +44,4 @@ bld/
 *.app
 *.opendb
 SDL Game.vcxproj.user
+*.user
