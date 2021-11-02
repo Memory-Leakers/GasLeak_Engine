@@ -11,40 +11,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Animation.h" />
-    <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\Globals.h" />
-    <ClInclude Include="Source\MemLeaks.h" />
-    <ClInclude Include="Source\Module.h" />
-    <ClInclude Include="Source\ModuleAudio.h" />
-    <ClInclude Include="Source\ModuleInput.h" />
-    <ClInclude Include="Source\ModulePhysics.h" />
-    <ClInclude Include="Source\ModulePlayer.h" />
-    <ClInclude Include="Source\ModuleRender.h" />
-    <ClInclude Include="Source\ModuleScene.h" />
-    <ClInclude Include="Source\SceneIntro.h" />
-    <ClInclude Include="Source\ModuleTextures.h" />
-    <ClInclude Include="Source\ModuleWindow.h" />
-    <ClInclude Include="Source\p2DynArray.h" />
-    <ClInclude Include="Source\p2List.h" />
-    <ClInclude Include="Source\p2Point.h" />
-    <ClInclude Include="Source\Point.h" />
-    <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="MemLeaks.h" />
+    <ClInclude Include="Module.h" />
+    <ClInclude Include="ModuleAudio.h" />
+    <ClInclude Include="ModuleInput.h" />
+    <ClInclude Include="ModulePhysics.h" />
+    <ClInclude Include="ModulePlayer.h" />
+    <ClInclude Include="ModuleRender.h" />
+    <ClInclude Include="ModuleScene.h" />
+    <ClInclude Include="SceneIntro.h" />
+    <ClInclude Include="ModuleTextures.h" />
+    <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="p2DynArray.h" />
+    <ClInclude Include="p2List.h" />
+    <ClInclude Include="p2Point.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\Log.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\ModuleAudio.cpp" />
-    <ClCompile Include="Source\ModuleInput.cpp" />
-    <ClCompile Include="Source\ModulePhysics.cpp" />
-    <ClCompile Include="Source\ModulePlayer.cpp" />
-    <ClCompile Include="Source\ModuleRender.cpp" />
-    <ClCompile Include="Source\ModuleScene.cpp" />
-    <ClCompile Include="Source\SceneIntro.cpp" />
-    <ClCompile Include="Source\ModuleTextures.cpp" />
-    <ClCompile Include="Source\ModuleWindow.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ModuleAudio.cpp" />
+    <ClCompile Include="ModuleInput.cpp" />
+    <ClCompile Include="ModulePhysics.cpp" />
+    <ClCompile Include="ModulePlayer.cpp" />
+    <ClCompile Include="ModuleRender.cpp" />
+    <ClCompile Include="ModuleScene.cpp" />
+    <ClCompile Include="SceneIntro.cpp" />
+    <ClCompile Include="ModuleTextures.cpp" />
+    <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}</ProjectGuid>
