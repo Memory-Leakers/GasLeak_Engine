@@ -69,6 +69,8 @@ UpdateStatus ModuleRender::Update()
 // PostUpdate present buffer to screen
 UpdateStatus ModuleRender::PostUpdate()
 {
+	OPTICK_EVENT("Render");
+	//OPTICK_CATEGORY("Render", Optick::Category::Rendering);
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }

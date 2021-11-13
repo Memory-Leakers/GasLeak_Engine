@@ -76,6 +76,7 @@ bool Application::Init()
 // Call PreUpdate, Update and PostUpdate on all modules
 UpdateStatus Application::Update()
 {
+	OPTICK_EVENT("Update");
 	UpdateStatus ret = UPDATE_CONTINUE;
 	p2List_item<Module*>* item = list_modules.getFirst();
 
@@ -104,7 +105,28 @@ UpdateStatus Application::Update()
 		item = item->next;
 	}
 
+	SleepUntilFrameTime();
+	
 	return ret;
+}
+
+void Application::SleepUntilFrameTime()
+{
+	OPTICK_EVENT("Wait");
+	//OPTICK_CATEGORY("Wait", Optick::Category::Wait);
+	globalTimer.Update();
+
+	deltaTime = globalTimer.getDeltaTime();
+
+
+	if (deltaTime <= FRAME_TIME)
+	{
+		sleepTime = (FRAME_TIME - deltaTime) * 1000;
+
+		Sleep(sleepTime);
+	}
+
+	globalTimer.Reset();
 }
 
 bool Application::CleanUp()

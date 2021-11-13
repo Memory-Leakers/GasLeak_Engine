@@ -1,7 +1,6 @@
 #pragma once
 
 #include "p2List.h"
-#include "Globals.h"
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
@@ -11,8 +10,12 @@
 #include "ModulePlayer.h"
 #include "ModulePhysics.h"
 #include "ModuleScene.h"
+#include "Timer.h"
 
+#include "Optick/include/optick.h"
 
+#define FPS 60
+#define FRAME_TIME (1.0/FPS)
 
 class Application
 {
@@ -28,7 +31,9 @@ public:
 private:
 
 	p2List<Module*> list_modules;
-
+	Timer globalTimer;
+	float deltaTime = 0;
+	float sleepTime= 0;
 public:
 
 	Application();
@@ -37,6 +42,7 @@ public:
 	bool Init();
 	UpdateStatus Update();
 	bool CleanUp();
+	void SleepUntilFrameTime();
 
 private:
 
