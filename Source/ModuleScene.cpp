@@ -74,16 +74,7 @@ bool ModuleScene::ChangeCurrentScene(uint index, int frames)
 
 bool ModuleScene::CleanUp()
 {
-	/*for (int i = 0; i < SCENES_NUM; i++)
-	{
-		if (scenes[i] != nullptr)
-		{
-			scenes[i]->CleanUp();	//CleanUp all scenes (in case the Application is shut down)
-			delete scenes[i];
-			scenes[i] = nullptr;
-		}
-	}*/
-
+	currentScene->CleanUp();
 	delete currentScene;
 
 	return true;

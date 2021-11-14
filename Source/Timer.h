@@ -66,7 +66,7 @@ public:
 		mElapsedTicks = SDL_GetTicks() - mStartTicks;
 		mDeltaTime = mElapsedTicks * 0.001f;
 
-		printf("Frame2Frame : %f\tElapsedTicks : %f\tStart Ticks: %f\n", frame2frame, mElapsedTicks, mStartTicks);
+		//printf("Frame2Frame : %f\tElapsedTicks : %f\tStart Ticks: %f\n", frame2frame, mElapsedTicks, mStartTicks);
 
 		return (frame2frame * 0.001f);
 	}

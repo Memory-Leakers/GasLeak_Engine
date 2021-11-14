@@ -31,7 +31,7 @@ public:
 		return ID;
 	}
 
-	virtual bool CleanUp(bool finalCleanUp = true);
+	virtual bool CleanUp();
 
 	int lastID = 0;
 

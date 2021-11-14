@@ -29,7 +29,7 @@ bool Scene::PostUpdate()
 	return true;
 }
 
-bool Scene::CleanUp(bool finalCleanUp)
+bool Scene::CleanUp()
 {
 	return true;
 }

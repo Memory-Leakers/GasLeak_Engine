@@ -95,7 +95,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\SDL_mixer\libx86;$(SolutionDir)Source\SDL_image\libx86;$(SolutionDir)Source\SDL\libx86;$(SolutionDir)Source\Optick\lib\debug</AdditionalLibraryDirectories>
     </Link>

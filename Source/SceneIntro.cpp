@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "SceneIntro.h"
+#include "PhysCore.h"
 
 iPoint position;
 
@@ -37,6 +38,18 @@ bool SceneIntro::Start()
 	player.w = 50;
 	player.h = 50;
 
+	world = new PhysCore({ 0,10 });
+
+	for (int i = 0; i < 10; i++)
+	{
+		RigidBody* body = new RigidBody({ 0,0 }, RigidBodyType::DYNAMIC);
+
+		world->AddRigidBody(body);
+
+		if (i == 5) world->DeleteRigidBody(body);
+	}
+
+
 	return ret;
 }
 
@@ -45,12 +58,15 @@ bool SceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
+	RELEASE(world);
+
 	return true;
 }
 
 // Update: draw background
 bool SceneIntro::Update()
 {
+	world->Update(1.0/60);
 	if (_app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
 	{
 		player.x-= 4;

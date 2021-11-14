@@ -4,6 +4,8 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 
+class PhysCore;
+
 #define BOUNCER_TIME 200
 
 struct Bouncer
@@ -50,7 +52,7 @@ public:
 	bool Start();
 	bool Update();
 	bool PostUpdate();
-	bool CleanUp();
+	bool CleanUp() override;
 
 public:
 	//Borrar
@@ -81,4 +83,6 @@ public:
 
 	PhysBody* player_lose;
 	uint player_lose_fx;
+
+	PhysCore* world;
 };

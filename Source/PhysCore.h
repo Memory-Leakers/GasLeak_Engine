@@ -13,6 +13,7 @@ public:
 	bool CheckCollision(RigidBody* body);
 
 	void AddRigidBody(RigidBody* body);
+	void DeleteRigidBody(RigidBody* body);
 
 private:
 	fPoint gravity;

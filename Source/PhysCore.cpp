@@ -11,6 +11,10 @@ PhysCore::~PhysCore()
 
 void PhysCore::Update(float simulationTime)
 {
+	for (int i = 0; i < rigidBodies.count(); i++)
+	{
+		printf("RigidBody%d\n", i);
+	}
 	// Step #0 Reset acceleration and forces
 	
 	// Step #1 Calculate Forces (TotalForces = GravityForce + AdditionalForce)
@@ -39,9 +43,15 @@ void PhysCore::Update(float simulationTime)
 bool PhysCore::CheckCollision(RigidBody* body)
 {
 	//Check if body is colliding with any other body on rigidBodies
+	return true;
 }
 
 void PhysCore::AddRigidBody(RigidBody* body)
 {
 	rigidBodies.add(body);
+}
+
+void PhysCore::DeleteRigidBody(RigidBody* body)
+{
+	rigidBodies.del(rigidBodies.At(rigidBodies.find(body)));
 }

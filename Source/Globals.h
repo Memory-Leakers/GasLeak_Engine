@@ -20,6 +20,21 @@ enum UpdateStatus
 	UPDATE_ERROR
 };
 
+#define IN_RANGE( value, min, max ) ( ((value) >= (min) && (value) <= (max)) ? 1 : 0 )
+#define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#define MAX( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#define TO_BOOL( a )  ( (a != 0) ? true : false )
+
+// Deletes a buffer
+#define RELEASE( x ) \
+    {                        \
+    if( x != NULL )        \
+        {                      \
+      delete x;            \
+      x = NULL;              \
+        }                      \
+    }
+
 // Configuration -----------
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 758
