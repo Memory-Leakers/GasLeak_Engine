@@ -40,6 +40,12 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysCore.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -102,6 +108,15 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="PhysCore.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -136,6 +151,12 @@
     </Filter>
     <Filter Include="Header Files\Scenes">
       <UniqueIdentifier>{63254e09-7108-4d6e-89e8-d6c49fa27ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{3f971b7e-74ba-488b-946c-49df7e6b20c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{dd780673-dba0-4b6a-b7b2-206a8fd39d9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
