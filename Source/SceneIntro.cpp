@@ -19,6 +19,7 @@ bool SceneIntro::Start()
 
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
+	// Test
 	plant.x = 500;
 	plant.y = 410;
 	plant.w = 50;
@@ -28,7 +29,6 @@ bool SceneIntro::Start()
 	ground.y = 510;
 	ground.h = 250;
 	ground.w = 3400;
-
 
 	position.x = 50;
 	position.y = 459;
@@ -48,7 +48,6 @@ bool SceneIntro::Start()
 
 		if (i == 5) world->DeleteRigidBody(body);
 	}
-
 
 	return ret;
 }
@@ -86,7 +85,6 @@ bool SceneIntro::Update()
 	
 	}
 
-	
 	//1250 , -50
 	if (player.x >= 1250) {
 		player.x = -49;
@@ -97,9 +95,6 @@ bool SceneIntro::Update()
 	}
 
 	playerCenter = { -playerCenterX,0 };
-
-	
-
 
 	return true;
 }
