@@ -17,6 +17,7 @@ private:
 	//Properties
 	float restitution = 0.0f;
 	float friction = 0.0f;
+	float drag = 0.0f;
 	float mass = 1.0f;
 	fPoint velocity = { 0.0f, 0.0f };
 	fPoint acceleration = { 0.0, 0.0 };
@@ -74,6 +75,15 @@ public:
 	void SetMass(float mass)
 	{
 		this->mass = mass;
+	}
+
+	float GetDrag()
+	{
+		return drag;
+	}
+	void SetDrag(float drag)
+	{
+		this->drag = drag;
 	}
 
 	fPoint GetLinearVelocity()
