@@ -43,6 +43,10 @@ void PhysCore::Update(float simulationTime)
 bool PhysCore::CheckCollision(RigidBody* body)
 {
 	//Check if body is colliding with any other body on rigidBodies
+
+
+	// Collision Circle && Rect
+	//https://www.cnblogs.com/shadow-lr/p/BoxCircleIntersect.html
 	return true;
 }
 
