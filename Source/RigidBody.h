@@ -8,7 +8,7 @@ enum RigidBodyType
 	KINEMATIC,
 };
 
-class RigidBody
+class RigidBody 
 {
 private:
 	// Position
@@ -32,12 +32,11 @@ private:
 	fPoint additionalForce = { 0.0, 0.0 };
 
 public:
-
 	RigidBody();
 
 	RigidBody(fPoint pos, RigidBodyType type);
 
-	RigidBody(RigidBody &copy);
+	RigidBody(RigidBody& copy);
 
 	void AddForceToCenter(fPoint force);
 
@@ -49,7 +48,6 @@ public:
 	{
 		this->position = pos;
 	}
-
 	float GetRestitution()
 	{
 		return restitution;
@@ -106,6 +104,13 @@ public:
 	{
 		this->rotation = rotation;
 	}
+private:
+	
+	void ResetForces();
+
+
+
+	friend class PhysCore;
 
 };
 

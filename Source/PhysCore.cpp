@@ -2,6 +2,7 @@
 
 PhysCore::PhysCore(fPoint gravity)
 {
+	this->gravity = gravity;
 }
 
 PhysCore::~PhysCore()
@@ -13,31 +14,39 @@ void PhysCore::Update(float simulationTime)
 {
 	for (int i = 0; i < rigidBodies.count(); i++)
 	{
-		printf("RigidBody%d\n", i);
+		// Step #0 Reset acceleration and forces
+
+		rigidBodies[i]->ResetForces();
+
+		// Step #1 Calculate Forces (TotalForces = GravityForce + AdditionalForce)
+
+		//	gravity
+		rigidBodies[i]->AddForceToCenter({ gravity.x * rigidBodies[i]->GetMass(), gravity.y * rigidBodies[i]->GetMass() });
+
+		//	Drag	(0.5 * density * relative velocity square * surface * Drag coeficient)
+		fPoint dragForce;
+		dragForce.x = wind.x -rigidBodies[i]->GetLinearVelocity().x;
+		dragForce.y = wind.y -rigidBodies[i]->GetLinearVelocity().y;
+		dragForce *= dragForce;
+		dragForce *= 0.5f * 1.0f * 1.0f * rigidBodies[i]->GetDrag();
+		rigidBodies[i]->AddForceToCenter(dragForce);
+
+		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
+		rigidBodies[i]->additionalForce = { 0,0 };
+
+		// Step #2 Calculate Newton's Second law (acceleration)
+		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
+
+		// Step #3 Integrate with Verlet
+
+		fPoint test = rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
+
+		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + test;
+		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
+
+		// Step #4: solve collisions
+		// CheckCollisions()
 	}
-	// Step #0 Reset acceleration and forces
-	
-	// Step #1 Calculate Forces (TotalForces = GravityForce + AdditionalForce)
-	
-	// Step #2 Calculate Newton's Second law (acceleration)
-	//ball.ax = ball.fx / ball.mass;
-	//ball.ay = ball.fy / ball.mass;
-	
-	// Step #3 Integrate
-
-	/*
-	void integrator_velocity_verlet(Ball &ball, double dt)
-{
-	ball.x += ball.vx * dt + 0.5 * ball.ax * dt * dt;
-	ball.y += ball.vy * dt + 0.5 * ball.ay * dt * dt;
-	ball.vx += ball.ax * dt;
-	ball.vy += ball.ay * dt;
-}
-	
-	*/
-
-	// Step #4: solve collisions
-	// CheckCollisions()
 }
 
 bool PhysCore::CheckCollision(RigidBody* body)

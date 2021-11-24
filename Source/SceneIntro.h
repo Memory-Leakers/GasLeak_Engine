@@ -5,6 +5,7 @@
 #include "Globals.h"
 
 class PhysCore;
+class RigidBody;
 
 #define BOUNCER_TIME 200
 
@@ -55,6 +56,10 @@ public:
 	bool CleanUp() override;
 
 public:
+
+	SDL_Rect rect = { 10,10,50,50 };
+	RigidBody* body;
+
 	//Borrar
 	SDL_Rect plant; 
 	SDL_Rect ground;

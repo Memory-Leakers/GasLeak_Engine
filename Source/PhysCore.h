@@ -18,5 +18,8 @@ public:
 private:
 	fPoint gravity;
 	List<RigidBody*> rigidBodies;
+
+	fPoint wind = { 0,0 };
+
 };
 

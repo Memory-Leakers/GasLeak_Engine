@@ -17,6 +17,13 @@ bool SceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	fPoint test = { 2.0,2.0 };
+
+	fPoint temp = test * test;
+
+	printf("%f %f", temp.x, temp.y);
+
+
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
 	// Test
@@ -40,14 +47,10 @@ bool SceneIntro::Start()
 
 	world = new PhysCore({ 0,10 });
 
-	for (int i = 0; i < 10; i++)
-	{
-		RigidBody* body = new RigidBody({ 0,0 }, RigidBodyType::DYNAMIC);
+	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC);
 
-		world->AddRigidBody(body);
-
-		if (i == 5) world->DeleteRigidBody(body);
-	}
+	world->AddRigidBody(body);
+	
 
 	return ret;
 }
@@ -66,9 +69,17 @@ bool SceneIntro::CleanUp()
 bool SceneIntro::Update()
 {
 	world->Update(1.0/60);
+
+	//printf_s("Position: %f\t %f\n", body->GetPosition().x, body->GetPosition().y);
+
 	if (_app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
 	{
 		player.x-= 4;
+	}
+
+	if (_app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		body->AddForceToCenter({ 0, -20 });
 	}
 
 	if (_app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -102,13 +113,20 @@ bool SceneIntro::Update()
 bool SceneIntro::PostUpdate()
 {
 
-	_app->renderer->CameraMove(playerCenter);
+	/*_app->renderer->CameraMove(playerCenter);
 	_app->renderer->DrawQuad(ground, 125, 0, 255, 255);
 	_app->renderer->DrawQuad(player, 125, 0, 125, 125);
 	_app->renderer->DrawQuad(plant, 255, 0, 255, 255);
 	_app->renderer->DrawLine(1250, 510, 1250, 300, 255, 0, 0);
-	_app->renderer->DrawLine(-50, 510, -50, 300, 0, 255, 0);
+	_app->renderer->DrawLine(-50, 510, -50, 300, 0, 255, 0);*/
 	
+	rect.x = body->GetPosition().x;
+	rect.y = body->GetPosition().y;
+
+	_app->renderer->DrawQuad(rect, 255, 0,0, 255);
+
+
+
 
 	return true;
 }

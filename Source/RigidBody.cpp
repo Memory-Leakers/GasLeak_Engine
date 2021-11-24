@@ -26,5 +26,10 @@ RigidBody::RigidBody(RigidBody& copy)
 
 void RigidBody::AddForceToCenter(fPoint force)
 {
-	this->additionalForce = force;
+	additionalForce += force;
+}
+
+void RigidBody::ResetForces()
+{
+	acceleration = totalForce = { 0,0 };
 }

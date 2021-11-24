@@ -55,6 +55,44 @@ public:
 		return(r);
 	}
 
+	Point operator /(const Point& v) const
+	{
+		Point r;
+
+		r.x = x / v.x;
+		r.y = y / v.y;
+
+		return(r);
+	}
+
+	Point operator /(const float v) const
+	{
+		Point r;
+
+		r.x = x / v;
+		r.y = y / v;
+
+		return(r);
+	}
+
+	Point operator *(const float num)
+	{
+		Point result;
+		result.x = this->x * num;
+		result.y = this->y * num;
+
+		return(result);
+	}
+
+	Point operator *(const Point& p)
+	{
+		Point result;
+		result.x = this->x * p.x;
+		result.y = this->y * p.y;
+
+		return(result);
+	}
+
 	const Point& operator -=(const Point& v)
 	{
 		x -= v.x;
@@ -81,8 +119,24 @@ public:
 
 	const Point& operator *=(const int num)
 	{
-		x* = num;
-		y* = num,
+		x *= num;
+		y *= num;
+
+			return(*this);
+	}
+
+	const Point& operator *=(const float num)
+	{
+		x *= num;
+		y *= num;
+
+			return(*this);
+	}
+
+	const Point& operator *=(const Point& num)
+	{
+		x *= num.x;
+		y *= num.y;
 
 			return(*this);
 	}
