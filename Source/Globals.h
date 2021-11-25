@@ -25,6 +25,8 @@ enum UpdateStatus
 #define MAX( a, b ) ( ((a) > (b)) ? (a) : (b) )
 #define TO_BOOL( a )  ( (a != 0) ? true : false )
 
+
+
 // Deletes a buffer
 #define RELEASE( x ) \
     {                        \

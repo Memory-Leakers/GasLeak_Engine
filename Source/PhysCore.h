@@ -45,7 +45,11 @@ public:
 private:
 
 	fPoint gravity;
+
+	float density = 1.0f;
+
 	List<RigidBody*> rigidBodies;
+
 	fPoint wind = { 0,0 };
 };
 

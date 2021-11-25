@@ -5,11 +5,11 @@ RigidBody::RigidBody()
 
 }
 
-RigidBody::RigidBody(fPoint pos, RigidBodyType type, ShapeType shape)
+RigidBody::RigidBody(fPoint pos, RigidBodyType type)
 {
 	this->position = pos;
 	this->type = type;
-	this->shape = shape;
+	//this->shape = shape;
 }
 
 RigidBody::RigidBody(RigidBody& copy)

@@ -25,10 +25,25 @@ void PhysCore::Update(float simulationTime)
 
 		//	Drag	(0.5 * density * relative velocity square * surface * Drag coeficient)
 		fPoint dragForce;
-		dragForce.x = wind.x -rigidBodies[i]->GetLinearVelocity().x;
-		dragForce.y = wind.y -rigidBodies[i]->GetLinearVelocity().y;
-		dragForce *= dragForce;
-		dragForce *= 0.5f * 1.0f * 1.0f * rigidBodies[i]->GetDrag();
+		fPoint relativeVelocity;
+		float relativeVelocityModule;
+		float magnitudDrag;
+
+		// Calcular velocidad relativa entre viento y body
+		relativeVelocity.x = wind.x -rigidBodies[i]->GetLinearVelocity().x;
+		relativeVelocity.y = wind.y -rigidBodies[i]->GetLinearVelocity().y;
+
+		// Calcular el modulo de la velocidad relativa
+		relativeVelocityModule = relativeVelocity.Module();
+
+		// Calcular el magnitud del drag
+		magnitudDrag = 0.5f * density * rigidBodies[i]->surface * pow(relativeVelocityModule,2) * rigidBodies[i]->GetDragCoheficient();
+		
+		fPoint nor = relativeVelocity.Normalize();
+
+		// Calcular la fuerza de drag
+		dragForce = nor * magnitudDrag;
+
 		rigidBodies[i]->AddForceToCenter(dragForce);
 
 		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
@@ -38,7 +53,6 @@ void PhysCore::Update(float simulationTime)
 		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
 
 		// Step #3 Integrate with Verlet
-
 		fPoint test = rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
 
 		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + test;
@@ -70,6 +84,10 @@ void PhysCore::DeleteRigidBody(RigidBody* body)
 
 bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 {
+	//if (b1.shape != RECT || b2.shape != RECT) return false;
+
+	//if(b1.position.x<b2.position.x+b2)
+
 	return false;
 }
 

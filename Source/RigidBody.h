@@ -8,11 +8,11 @@ enum RigidBodyType
 	KINEMATIC,
 };
 
-enum ShapeType
-{
-	CIRCLE,
-	RECT,
-};
+//enum ShapeType
+//{
+//	CIRCLE,
+//	RECT,
+//};	
 
 class RigidBody 
 {
@@ -29,19 +29,22 @@ private:
 	fPoint acceleration = { 0.0, 0.0 };
 	float rotation = 0.0f;
 	float gravityScale = 1.0f;
+	float surface = 1.0f;
 
 	RigidBodyType type = STATIC;
-	ShapeType shape = RECT;
+	//ShapeType shape = RECT;
 
 	float maximumVelocity = 1000.0f;
 
 	fPoint totalForce = { 0.0, 0.0 };
 	fPoint additionalForce = { 0.0, 0.0 };
 
+	//List<RigidBody*> collisionList;
+
 public:
 	RigidBody();
 
-	RigidBody(fPoint pos, RigidBodyType type, ShapeType shape);
+	RigidBody(fPoint pos, RigidBodyType type);
 
 	RigidBody(RigidBody& copy);
 
@@ -82,11 +85,11 @@ public:
 		this->mass = mass;
 	}
 
-	float GetDrag()
+	float GetDragCoheficient()
 	{
 		return drag;
 	}
-	void SetDrag(float drag)
+	void SetDragCoheficient(float drag)
 	{
 		this->drag = drag;
 	}
@@ -111,13 +114,11 @@ public:
 	{
 		this->rotation = rotation;
 	}
+
 private:
 	
 	void ResetForces();
 
-
-
 	friend class PhysCore;
-
 };
 
