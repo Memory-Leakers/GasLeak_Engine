@@ -53,7 +53,6 @@ bool PhysCore::CheckCollision(RigidBody* body)
 {
 	//Check if body is colliding with any other body on rigidBodies
 
-
 	// Collision Circle && Rect
 	//https://www.cnblogs.com/shadow-lr/p/BoxCircleIntersect.html
 	return true;
@@ -67,4 +66,19 @@ void PhysCore::AddRigidBody(RigidBody* body)
 void PhysCore::DeleteRigidBody(RigidBody* body)
 {
 	rigidBodies.del(rigidBodies.At(rigidBodies.find(body)));
+}
+
+bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
+{
+	return false;
+}
+
+bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
+{
+	return false;
+}
+
+bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
+{
+	return false;
 }

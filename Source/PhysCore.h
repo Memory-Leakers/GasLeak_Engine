@@ -16,6 +16,12 @@ public:
 
 	void DeleteRigidBody(RigidBody* body);
 
+	bool BoxCOlBox(RigidBody& b1, RigidBody& b2);
+
+	bool CircleCOlCircle(RigidBody& b1, RigidBody& b2);
+
+	bool BoxCOlCircle(RigidBody& b1, RigidBody& b2);
+
 	void SetWind(fPoint windforce) 
 	{
 		wind = windforce;
