@@ -8,6 +8,12 @@ enum RigidBodyType
 	KINEMATIC,
 };
 
+enum ShapeType
+{
+	CIRCLE,
+	RECT,
+};
+
 class RigidBody 
 {
 private:
@@ -25,6 +31,7 @@ private:
 	float gravityScale = 1.0f;
 
 	RigidBodyType type = STATIC;
+	ShapeType shape = RECT;
 
 	float maximumVelocity = 1000.0f;
 
@@ -34,7 +41,7 @@ private:
 public:
 	RigidBody();
 
-	RigidBody(fPoint pos, RigidBodyType type);
+	RigidBody(fPoint pos, RigidBodyType type, ShapeType shape);
 
 	RigidBody(RigidBody& copy);
 
