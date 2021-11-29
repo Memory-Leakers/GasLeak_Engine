@@ -48,8 +48,10 @@ private:
 
 	float density = 1.0f;
 
-	List<RigidBody*> rigidBodies;
-
 	fPoint wind = { 0,0 };
+
+public:
+
+	List<RigidBody*> rigidBodies;
 };
 

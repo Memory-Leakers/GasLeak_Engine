@@ -47,11 +47,15 @@ bool SceneIntro::Start()
 
 	world = new PhysCore({ 0,10 });
 
-	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC);
+	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC,10,10);
+
+	body2 = new RigidBody({ 400, 300 }, RigidBodyType::DYNAMIC, 10, 10);
+
+	body2->SetGravityScale(2.0f);
 
 	world->AddRigidBody(body);
 	
-
+	world->AddRigidBody(body2);
 	return ret;
 }
 
@@ -125,7 +129,10 @@ bool SceneIntro::PostUpdate()
 
 	_app->renderer->DrawQuad(rect, 255, 0,0, 255);
 
+	rect2.x = body2->GetPosition().x;
+	rect2.y = body2->GetPosition().y;
 
+	_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
 
 
 	return true;

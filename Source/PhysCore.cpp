@@ -19,9 +19,9 @@ void PhysCore::Update(float simulationTime)
 		rigidBodies[i]->ResetForces();
 
 		// Step #1 Calculate Forces (TotalForces = GravityForce + AdditionalForce)
-
+		
 		//	gravity
-		rigidBodies[i]->AddForceToCenter({ gravity.x * rigidBodies[i]->GetMass(), gravity.y * rigidBodies[i]->GetMass() });
+		rigidBodies[i]->AddForceToCenter(gravity * rigidBodies[i]->gravityScale * rigidBodies[i]->GetMass());
 
 		//	Drag	(0.5 * density * relative velocity square * surface * Drag coeficient)
 		fPoint dragForce;

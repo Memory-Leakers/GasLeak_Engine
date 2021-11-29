@@ -8,11 +8,11 @@ enum RigidBodyType
 	KINEMATIC,
 };
 
-//enum ShapeType
-//{
-//	CIRCLE,
-//	RECT,
-//};	
+enum class ShapeType
+{
+	CIRCLE,
+	RECT,
+};	
 
 class RigidBody 
 {
@@ -30,9 +30,11 @@ private:
 	float rotation = 0.0f;
 	float gravityScale = 1.0f;
 	float surface = 1.0f;
-
+	float width = 1.0f;
+	float height = 1.0f;
+	float radius = 1.0f;
 	RigidBodyType type = STATIC;
-	//ShapeType shape = RECT;
+	ShapeType shape = ShapeType::RECT;
 
 	float maximumVelocity = 1000.0f;
 
@@ -44,7 +46,9 @@ private:
 public:
 	RigidBody();
 
-	RigidBody(fPoint pos, RigidBodyType type);
+	RigidBody(fPoint pos, RigidBodyType type,float width,float height);
+
+	RigidBody(fPoint pos, RigidBodyType type, float radius);
 
 	RigidBody(RigidBody& copy);
 
@@ -104,6 +108,16 @@ public:
 		velocity.y > maximumVelocity ? maximumVelocity : velocity.y < -maximumVelocity ? -maximumVelocity : velocity.y;
 
 		this->velocity = velocity;
+	}
+
+	void SetGravityScale(float gravityScale)
+	{
+		this->gravityScale = gravityScale;
+	}
+
+	float GetGravityScale()
+	{
+		return gravityScale;
 	}
 
 	float GetRotation()
