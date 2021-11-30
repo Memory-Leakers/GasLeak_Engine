@@ -57,13 +57,20 @@ void PhysCore::Update(float simulationTime)
 		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
 
 		// Step #4: solve collisions
-		// CheckCollisions()
+		CheckCollision(rigidBodies[i]);
 	}
 }
 
 bool PhysCore::CheckCollision(RigidBody* body)
 {
 	//Check if body is colliding with any other body on rigidBodies
+	for (int i = 0; i < rigidBodies.count(); i++)
+	{
+		if (i != rigidBodies.find(body))
+		{
+			BoxCOlBox(*body, *rigidBodies[i]);
+		}
+	}
 
 	// Collision Circle && Rect
 	//https://www.cnblogs.com/shadow-lr/p/BoxCircleIntersect.html
@@ -82,11 +89,43 @@ void PhysCore::DeleteRigidBody(RigidBody* body)
 
 bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 {
-	//if (b1.shape != RECT || b2.shape != RECT) return false;
+	// Check b1 & b2 is RECT
+	if (b1.shape != ShapeType::RECT || b2.shape != ShapeType::RECT) return false;
 
-	//if(b1.position.x<b2.position.x+b2)
+	// No collision case
+	if (b1.position.x > b2.position.x + b2.width ||
+		b1.position.x + b1.width < b2.position.x ||
+		b1.position.y > b2.position.y + b2.height ||
+		b1.position.y + b1.height < b2.position.y)
+	{
+		for (int i = 0; i < b1.collisionList.count(); i++)
+		{
+			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+			{
+				printf("BOX COL BOX EXIT\n");
+				b1.collisionList[i] = nullptr;
+				b1.collisionList.SubstractSize();
+			}
+		}
 
-	return false;
+		return false;
+	}
+
+	// Collision
+	if (b1.position.y > b2.position.y && b1.position.y < b2.position.y + b2.height)
+	{
+		for (int i = 0; i < b1.collisionList.count(); i++)
+		{
+			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+			{
+				printf("BOX COL BOX STAY\n");
+				return true;
+			}
+		}
+		b1.collisionList.add(&b2);
+		printf("BOX COL BOX ENTER\n");
+		return true;
+	}
 }
 
 bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)

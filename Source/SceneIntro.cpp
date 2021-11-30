@@ -17,13 +17,6 @@ bool SceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	fPoint test = { 2.0,2.0 };
-
-	fPoint temp = test * test;
-
-	printf("%f %f", temp.x, temp.y);
-
-
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
 	// Test
@@ -45,11 +38,11 @@ bool SceneIntro::Start()
 	player.w = 50;
 	player.h = 50;
 
-	world = new PhysCore({ 0,10 });
+	world = new PhysCore({ 0, 10});
 
 	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC,10,10);
 
-	body2 = new RigidBody({ 400, 300 }, RigidBodyType::DYNAMIC, 10, 10);
+	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 10, 10);
 
 	body2->SetGravityScale(2.0f);
 

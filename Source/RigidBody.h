@@ -1,5 +1,6 @@
 #pragma once
 #include "Point.h"
+#include "List.h"
 
 enum RigidBodyType
 {
@@ -41,10 +42,12 @@ private:
 	fPoint totalForce = { 0.0, 0.0 };
 	fPoint additionalForce = { 0.0, 0.0 };
 
-	//List<RigidBody*> collisionList;
+	List<RigidBody*> collisionList;
 
 public:
 	RigidBody();
+
+	~RigidBody();
 
 	RigidBody(fPoint pos, RigidBodyType type,float width,float height);
 
