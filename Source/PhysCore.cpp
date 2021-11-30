@@ -53,9 +53,7 @@ void PhysCore::Update(float simulationTime)
 		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
 
 		// Step #3 Integrate with Verlet
-		fPoint test = rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
-
-		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + test;
+		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
 		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
 
 		// Step #4: solve collisions
