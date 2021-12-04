@@ -142,4 +142,3 @@ private:
 
 	friend class PhysCore;
 };
-

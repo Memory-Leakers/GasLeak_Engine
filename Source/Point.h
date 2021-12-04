@@ -229,7 +229,7 @@ public:
 
 	TYPE magnitude()
 	{
-		return (x * x + y * y);
+		return sqrt(x * x + y * y);
 	}
 
 };

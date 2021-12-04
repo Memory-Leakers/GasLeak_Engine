@@ -136,8 +136,10 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
+	int offsetx, offsety;
 	SDL_Rect rec(rect);
-	if(use_camera)
+
+	if (use_camera)
 	{
 		rec.x = (int)(camera.x + rect.x * SCREEN_SIZE);
 		rec.y = (int)(camera.y + rect.y * SCREEN_SIZE);
@@ -145,9 +147,14 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 		rec.h *= SCREEN_SIZE;
 	}
 
+	offsetx = rec.w / 2;
+	offsety = rec.h / 2;
+	rec.x -= offsetx;
+	rec.y -= offsety;
+
 	int result = (filled) ? SDL_RenderFillRect(renderer, &rec) : SDL_RenderDrawRect(renderer, &rec);
-	
-	if(result != 0)
+
+	if (result != 0)
 	{
 		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
 		ret = false;

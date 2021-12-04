@@ -144,13 +144,10 @@ bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 {
 	// Check b1 & b2 is CIRCLE
 	if (b1.shape != ShapeType::CIRCLE || b2.shape != ShapeType::CIRCLE) return false;
-
-
-
 		float distX = b1.position.x - b2.position.x;
 		float distY = b1.position.y - b2.position.y;
 		float distance = sqrt(pow(distX,2) + pow(distY, 2));
-		//Collision
+	//Collision
 	if (distance <= b1.radius + b2.radius)
 	{
 		for (int i = 0; i < b1.collisionList.count(); i++)
@@ -167,8 +164,7 @@ bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 		return true;
 	}
 
-		//No Collision
-
+	//No Collision
 	if (distance > b1.radius + b2.radius)
 	{
 		for (int i = 0; i < b1.collisionList.count(); i++)
@@ -181,15 +177,14 @@ bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 			}
 		}
 	}
-
 }
-
 
 bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 {
 	RigidBody* circ;
 	RigidBody* rect;
 	fPoint offset;
+
 	float height;
 	float width;
 	float distance;
@@ -199,7 +194,8 @@ bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 		rect = &b1;
 		circ = &b2;
 	}
-	else {
+	else 
+	{
 		rect = &b2;
 		circ = &b1;
 	}
@@ -209,9 +205,8 @@ bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 
 	offset = circ->GetPosition() - rect->GetPosition();
 
-
-	offset.x = MAX(-height, MIN(height, offset.x));
-	offset.y = MAX(-width, MIN(width, offset.x));
+	offset.x = MAX(-width, MIN(width, offset.x));
+	offset.y = MAX(-height, MIN(height, offset.y));
 
 	offset = rect->GetPosition() + offset;
 
