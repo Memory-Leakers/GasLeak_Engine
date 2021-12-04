@@ -81,6 +81,10 @@ bool PhysCore::CheckCollision(RigidBody* body)
 			{
 				CircleCOlCircle(*body, *rigidBodies[i]);
 			}
+			if (body->shape == ShapeType::CIRCLE && rigidBodies[i]->shape == ShapeType::RECT)
+			{
+				BoxCOlCircle(*body, *rigidBodies[i]);
+			}
 		}
 	}
 	// Collision Circle && Rect
@@ -209,14 +213,14 @@ bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 	offset.x = MAX(-height, MIN(height, offset.x));
 	offset.y = MAX(-width, MIN(width, offset.x));
 
-	offset = circ->GetPosition() + offset;
+	offset = rect->GetPosition() + offset;
 
 	distance = (offset - circ->GetPosition()).magnitude();
 
-	if (distance <= circ->radius)
+	if (distance <= circ->GetRadius())
 	{
-		return true;
 		printf("COLLISION BOX CIRCLE\n");
+		return true;
 	}
 	else
 	{

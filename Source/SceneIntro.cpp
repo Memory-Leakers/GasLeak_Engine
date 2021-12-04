@@ -40,11 +40,11 @@ bool SceneIntro::Start()
 
 	world = new PhysCore({ 0, 10});
 
-	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC, rect.w, rect.h);
+	body = new RigidBody({ 500, 300 }, RigidBodyType::DYNAMIC, rect.w, rect.h);
 
 	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
 
-	body3 = new RigidBody({ 500, 300 }, RigidBodyType::DYNAMIC, 10);
+	body3 = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC, 10);
 
 	body4 = new RigidBody({ 500, 200 }, RigidBodyType::DYNAMIC, 10);
 
