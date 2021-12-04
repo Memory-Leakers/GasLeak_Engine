@@ -1,4 +1,5 @@
 #include "PhysCore.h"
+#include <algorithm>
 
 PhysCore::PhysCore(fPoint gravity)
 {
@@ -52,7 +53,14 @@ void PhysCore::Update(float simulationTime)
 bool PhysCore::CheckCollision(RigidBody* body)
 {
 	//Check if body is colliding with any other body on rigidBodies
+	switch (body->shape) {
+		case RECT:
 
+			break;
+		case CIRCLE:
+
+			break;
+	}
 	// Collision Circle && Rect
 	//https://www.cnblogs.com/shadow-lr/p/BoxCircleIntersect.html
 	return true;
@@ -70,15 +78,46 @@ void PhysCore::DeleteRigidBody(RigidBody* body)
 
 bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 {
+
+
 	return false;
 }
 
 bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 {
+
+
 	return false;
 }
 
 bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 {
+	RigidBody circ;
+	RigidBody rect;
+	fPoint offset;
+
+	if (b1.shape == RECT)
+	{
+		rect = b1;
+		circ = b2;
+	} 
+	else {
+		rect = b2;
+		circ = b1;
+	}
+
+	offset = circ.GetPosition() - rect.GetPosition();
+
+
+	offset.x = std::less(offset.x, -2, 2);
+
+
 	return false;
 }
+
+
+fPoint Clamp(float val, float min, float max)
+{
+	return MAX(min, MIN(max, val));
+}
+
