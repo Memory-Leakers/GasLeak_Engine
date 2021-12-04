@@ -19,24 +19,6 @@ bool SceneIntro::Start()
 
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
-	// Test
-	plant.x = 500;
-	plant.y = 410;
-	plant.w = 50;
-	plant.h = 70;
-
-	ground.x = -1000;
-	ground.y = 510;
-	ground.h = 250;
-	ground.w = 3400;
-
-	position.x = 50;
-	position.y = 459;
-
-	player.x = position.x;
-	player.y = position.y;
-	player.w = 50;
-	player.h = 50;
 
 	world = new PhysCore({ 0, 10});
 
@@ -86,40 +68,11 @@ bool SceneIntro::Update()
 
 	//printf_s("Position: %f\t %f\n", body->GetPosition().x, body->GetPosition().y);
 
-	if (_app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		player.x-= 4;
-	}
 
 	if (_app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
 		body->AddForceToCenter({ 0, -20 });
 	}
-
-	if (_app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		player.x+= 4;
-	}
-
-	int playerCenterX = (player.w / 2) + player.x;
-	int plantCenter = (plant.w / 2) + plant.x;
-	int distance = abs(playerCenterX - plantCenter);
-	if(distance < 35)
-	{
-		plant.y = 375 + distance;
-
-	}
-
-	//1250 , -50
-	if (player.x >= 1250) {
-		player.x = -49;
-	}
-	else if (player.x <= -50)
-	{
-		player.x = 1249;
-	}
-
-	playerCenter = { -playerCenterX,0 };
 
 	return true;
 }
