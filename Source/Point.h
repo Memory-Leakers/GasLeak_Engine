@@ -226,6 +226,12 @@ public:
 	{
 		return abs(v.x - v2.x) + abs(v.y - v2.y);
 	}
+
+	TYPE magnitude()
+	{
+		return (x * x + y * y);
+	}
+
 };
 
 typedef Point<int> iPoint;

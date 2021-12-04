@@ -136,33 +136,50 @@ bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 	return false;
 }
 
+
 bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 {
-	RigidBody circ;
-	RigidBody rect;
+	RigidBody* circ;
+	RigidBody* rect;
 	fPoint offset;
+	float height;
+	float width;
+	float distance;
 
-	if (b1.shape == RECT)
+	if (b1.shape == ShapeType::RECT)
 	{
-		rect = b1;
-		circ = b2;
+		rect = &b1;
+		circ = &b2;
 	}
 	else {
-		rect = b2;
-		circ = b1;
+		rect = &b2;
+		circ = &b1;
 	}
 
-	offset = circ.GetPosition() - rect.GetPosition();
+	height = rect->height * 0.5f;
+	width = rect->width * 0.5f;
+
+	offset = circ->GetPosition() - rect->GetPosition();
 
 
-	offset.x = std::less(offset.x, -2, 2);
+	offset.x = MAX(-height, MIN(height, offset.x));
+	offset.y = MAX(-width, MIN(width, offset.x));
 
+	offset = circ->GetPosition() + offset;
+
+	distance = (offset - circ->GetPosition()).magnitude();
+
+	if (distance <= circ->radius)
+	{
+		return true;
+		printf("COLLISION BOX CIRCLE\n");
+	}
+	else
+	{
+		return false;
+	}
 
 	return false;
 }
 
 
-fPoint Clamp(float val, float min, float max)
-{
-	return MAX(min, MIN(max, val));
-}
