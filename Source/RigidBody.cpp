@@ -9,7 +9,7 @@ RigidBody::~RigidBody()
 {
 }
 
-RigidBody::RigidBody(fPoint pos, RigidBodyType type,float width,float height)
+RigidBody::RigidBody(fPoint pos, RigidBodyType type, float width, float height)
 {
 	this->position = pos;
 	this->type = type;

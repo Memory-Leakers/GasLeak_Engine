@@ -54,8 +54,12 @@ void PhysCore::Update(float simulationTime)
 
 		// Step #3 Integrate with Verlet
 		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
-		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
+		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;	
+	}
 
+	// Despues de mover todos los objetos comparan la colision.
+	for (int i = 0; i < rigidBodies.count(); i++)
+	{
 		// Step #4: solve collisions
 		CheckCollision(rigidBodies[i]);
 	}
@@ -111,21 +115,18 @@ bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 		return false;
 	}
 
-	// Collision
-	if (b1.position.y > b2.position.y && b1.position.y < b2.position.y + b2.height)
+	// Collision case
+	for (int i = 0; i < b1.collisionList.count(); i++)
 	{
-		for (int i = 0; i < b1.collisionList.count(); i++)
+		if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 		{
-			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
-			{
-				printf("BOX COL BOX STAY\n");
-				return true;
-			}
+			printf("BOX COL BOX STAY\n");
+			return true;
 		}
-		b1.collisionList.add(&b2);
-		printf("BOX COL BOX ENTER\n");
-		return true;
 	}
+	b1.collisionList.add(&b2);
+	printf("BOX COL BOX ENTER\n");
+	return true;
 }
 
 bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)

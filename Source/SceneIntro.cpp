@@ -40,9 +40,9 @@ bool SceneIntro::Start()
 
 	world = new PhysCore({ 0, 10});
 
-	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC,10,10);
+	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC, rect.w, rect.h);
 
-	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 10, 10);
+	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
 
 	body2->SetGravityScale(2.0f);
 
@@ -65,7 +65,14 @@ bool SceneIntro::CleanUp()
 // Update: draw background
 bool SceneIntro::Update()
 {
-	world->Update(1.0/60);
+	if(_app->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
+	{
+		world->Update(1.0 / 60);
+	}
+	if (_app->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
+	{
+		world->Update(1.0 / 60);
+	}
 
 	//printf_s("Position: %f\t %f\n", body->GetPosition().x, body->GetPosition().y);
 
