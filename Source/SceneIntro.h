@@ -58,16 +58,20 @@ public:
 public:
 
 	SDL_Rect rect = { 10,10,10,10 };
-	SDL_Rect rect2 = { 10,10,10,20 };
+	SDL_Rect rect2 = { 10,10,10,10 };
+
+
 	RigidBody* body;
 	RigidBody* body2;
+	RigidBody* body3;
+	RigidBody* body4;
 
 	//Borrar
-	SDL_Rect plant; 
+	SDL_Rect plant;
 	SDL_Rect ground;
 	SDL_Rect player;
 	iPoint playerCenter;
-	
+
 	//Borrar
 	SDL_Texture* graphics;
 	PhysBody* background;
@@ -81,7 +85,7 @@ public:
 	SDL_Texture* tex_light_tiny;
 	SDL_Texture* tex_light_medium;
 	SDL_Texture* tex_light_big;
-	
+
 	uint fx_light_tiny;
 	uint fx_light_medium;
 	uint fx_light_big;

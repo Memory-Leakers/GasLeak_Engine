@@ -44,11 +44,21 @@ bool SceneIntro::Start()
 
 	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
 
+	body3 = new RigidBody({ 500, 300 }, RigidBodyType::DYNAMIC, 10);
+
+	body4 = new RigidBody({ 500, 200 }, RigidBodyType::DYNAMIC, 10);
+
 	body2->SetGravityScale(2.0f);
 
+	body4->SetGravityScale(2.0f);
+
 	world->AddRigidBody(body);
-	
+
 	world->AddRigidBody(body2);
+
+	world->AddRigidBody(body3);
+
+	world->AddRigidBody(body4);
 	return ret;
 }
 
@@ -76,7 +86,7 @@ bool SceneIntro::Update()
 
 	//printf_s("Position: %f\t %f\n", body->GetPosition().x, body->GetPosition().y);
 
-	if (_app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
+	if (_app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		player.x-= 4;
 	}
@@ -97,14 +107,14 @@ bool SceneIntro::Update()
 	if(distance < 35)
 	{
 		plant.y = 375 + distance;
-	
+
 	}
 
 	//1250 , -50
 	if (player.x >= 1250) {
 		player.x = -49;
 	}
-	else if (player.x <= -50) 
+	else if (player.x <= -50)
 	{
 		player.x = 1249;
 	}
@@ -117,13 +127,6 @@ bool SceneIntro::Update()
 bool SceneIntro::PostUpdate()
 {
 
-	/*_app->renderer->CameraMove(playerCenter);
-	_app->renderer->DrawQuad(ground, 125, 0, 255, 255);
-	_app->renderer->DrawQuad(player, 125, 0, 125, 125);
-	_app->renderer->DrawQuad(plant, 255, 0, 255, 255);
-	_app->renderer->DrawLine(1250, 510, 1250, 300, 255, 0, 0);
-	_app->renderer->DrawLine(-50, 510, -50, 300, 0, 255, 0);*/
-	
 	rect.x = body->GetPosition().x;
 	rect.y = body->GetPosition().y;
 
@@ -134,6 +137,8 @@ bool SceneIntro::PostUpdate()
 
 	_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
 
+	_app->renderer->DrawCircle(body3->GetPosition().x, body3->GetPosition().y, body3->GetRadius(), 255, 0, 0);
+	_app->renderer->DrawCircle(body4->GetPosition().x, body4->GetPosition().y, body4->GetRadius(), 0, 255, 0);
 
 	return true;
 }
