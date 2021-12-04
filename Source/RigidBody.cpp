@@ -5,11 +5,25 @@ RigidBody::RigidBody()
 
 }
 
-RigidBody::RigidBody(fPoint pos, RigidBodyType type, ShapeType shape)
+RigidBody::~RigidBody()
+{
+}
+
+RigidBody::RigidBody(fPoint pos, RigidBodyType type, float width, float height)
 {
 	this->position = pos;
 	this->type = type;
-	this->shape = shape;
+	this->shape = ShapeType::RECT;
+	this->width = width;
+	this->height = height;
+}
+
+RigidBody::RigidBody(fPoint pos, RigidBodyType type, float radius)
+{
+	this->position = pos;
+	this->type = type;
+	this->shape = ShapeType::CIRCLE;
+	this->radius = radius;
 }
 
 RigidBody::RigidBody(RigidBody& copy)
@@ -23,6 +37,11 @@ RigidBody::RigidBody(RigidBody& copy)
 	this->restitution = copy.restitution;
 	this->rotation = copy.rotation;
 	this->type = copy.type;
+	this->width = copy.width;
+	this->height = copy.height;
+	this->radius = copy.radius;
+	this->shape = copy.shape;
+	this->gravityScale = copy.gravityScale;
 }
 
 void RigidBody::AddForceToCenter(fPoint force)

@@ -22,14 +22,29 @@ void PhysCore::Update(float simulationTime)
 		// Step #1 Calculate Forces (TotalForces = GravityForce + AdditionalForce)
 
 		//	gravity
-		rigidBodies[i]->AddForceToCenter({ gravity.x * rigidBodies[i]->GetMass(), gravity.y * rigidBodies[i]->GetMass() });
+		rigidBodies[i]->AddForceToCenter(gravity * rigidBodies[i]->gravityScale * rigidBodies[i]->GetMass());
 
 		//	Drag	(0.5 * density * relative velocity square * surface * Drag coeficient)
 		fPoint dragForce;
-		dragForce.x = wind.x -rigidBodies[i]->GetLinearVelocity().x;
-		dragForce.y = wind.y -rigidBodies[i]->GetLinearVelocity().y;
-		dragForce *= dragForce;
-		dragForce *= 0.5f * 1.0f * 1.0f * rigidBodies[i]->GetDrag();
+		fPoint relativeVelocity;
+		float relativeVelocityModule;
+		float magnitudDrag;
+
+		// Calcular velocidad relativa entre viento y body
+		relativeVelocity.x = wind.x -rigidBodies[i]->GetLinearVelocity().x;
+		relativeVelocity.y = wind.y -rigidBodies[i]->GetLinearVelocity().y;
+
+		// Calcular el modulo de la velocidad relativa
+		relativeVelocityModule = relativeVelocity.Module();
+
+		// Calcular el magnitud del drag
+		magnitudDrag = 0.5f * density * rigidBodies[i]->surface * pow(relativeVelocityModule,2) * rigidBodies[i]->GetDragCoheficient();
+
+		fPoint nor = relativeVelocity.Normalize();
+
+		// Calcular la fuerza de drag
+		dragForce = nor * magnitudDrag;
+
 		rigidBodies[i]->AddForceToCenter(dragForce);
 
 		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
@@ -39,27 +54,27 @@ void PhysCore::Update(float simulationTime)
 		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
 
 		// Step #3 Integrate with Verlet
-
-		fPoint test = rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
-
-		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + test;
+		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
 		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
+	}
 
+	// Despues de mover todos los objetos comparan la colision.
+	for (int i = 0; i < rigidBodies.count(); i++)
+	{
 		// Step #4: solve collisions
-		// CheckCollisions()
+		CheckCollision(rigidBodies[i]);
 	}
 }
 
 bool PhysCore::CheckCollision(RigidBody* body)
 {
 	//Check if body is colliding with any other body on rigidBodies
-	switch (body->shape) {
-		case RECT:
-
-			break;
-		case CIRCLE:
-
-			break;
+	for (int i = 0; i < rigidBodies.count(); i++)
+	{
+		if (i != rigidBodies.find(body))
+		{
+			BoxCOlBox(*body, *rigidBodies[i]);
+		}
 	}
 	// Collision Circle && Rect
 	//https://www.cnblogs.com/shadow-lr/p/BoxCircleIntersect.html
@@ -78,9 +93,40 @@ void PhysCore::DeleteRigidBody(RigidBody* body)
 
 bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 {
+	// Check b1 & b2 is RECT
+	if (b1.shape != ShapeType::RECT || b2.shape != ShapeType::RECT) return false;
 
+	// No collision case
+	if (b1.position.x > b2.position.x + b2.width ||
+		b1.position.x + b1.width < b2.position.x ||
+		b1.position.y > b2.position.y + b2.height ||
+		b1.position.y + b1.height < b2.position.y)
+	{
+		for (int i = 0; i < b1.collisionList.count(); i++)
+		{
+			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+			{
+				printf("BOX COL BOX EXIT\n");
+				b1.collisionList[i] = nullptr;
+				b1.collisionList.SubstractSize();
+			}
+		}
 
-	return false;
+		return false;
+	}
+
+	// Collision case
+	for (int i = 0; i < b1.collisionList.count(); i++)
+	{
+		if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+		{
+			printf("BOX COL BOX STAY\n");
+			return true;
+		}
+	}
+	b1.collisionList.add(&b2);
+	printf("BOX COL BOX ENTER\n");
+	return true;
 }
 
 bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
@@ -100,7 +146,7 @@ bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 	{
 		rect = b1;
 		circ = b2;
-	} 
+	}
 	else {
 		rect = b2;
 		circ = b1;
@@ -120,4 +166,3 @@ fPoint Clamp(float val, float min, float max)
 {
 	return MAX(min, MIN(max, val));
 }
-

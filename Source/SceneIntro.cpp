@@ -17,13 +17,6 @@ bool SceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	fPoint test = { 2.0,2.0 };
-
-	fPoint temp = test * test;
-
-	printf("%f %f", temp.x, temp.y);
-
-
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
 	// Test
@@ -45,13 +38,17 @@ bool SceneIntro::Start()
 	player.w = 50;
 	player.h = 50;
 
-	world = new PhysCore({ 0,10 });
+	world = new PhysCore({ 0, 10});
 
-	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC);
+	body = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC, rect.w, rect.h);
+
+	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
+
+	body2->SetGravityScale(2.0f);
 
 	world->AddRigidBody(body);
 	
-
+	world->AddRigidBody(body2);
 	return ret;
 }
 
@@ -68,7 +65,14 @@ bool SceneIntro::CleanUp()
 // Update: draw background
 bool SceneIntro::Update()
 {
-	world->Update(1.0/60);
+	if(_app->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
+	{
+		world->Update(1.0 / 60);
+	}
+	if (_app->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
+	{
+		world->Update(1.0 / 60);
+	}
 
 	//printf_s("Position: %f\t %f\n", body->GetPosition().x, body->GetPosition().y);
 
@@ -125,7 +129,10 @@ bool SceneIntro::PostUpdate()
 
 	_app->renderer->DrawQuad(rect, 255, 0,0, 255);
 
+	rect2.x = body2->GetPosition().x;
+	rect2.y = body2->GetPosition().y;
 
+	_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
 
 
 	return true;

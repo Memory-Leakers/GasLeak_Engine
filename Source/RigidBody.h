@@ -1,5 +1,6 @@
 #pragma once
 #include "Point.h"
+#include "List.h"
 
 enum RigidBodyType
 {
@@ -8,11 +9,11 @@ enum RigidBodyType
 	KINEMATIC,
 };
 
-enum ShapeType
+enum class ShapeType
 {
 	CIRCLE,
 	RECT,
-};
+};	
 
 class RigidBody 
 {
@@ -29,19 +30,28 @@ private:
 	fPoint acceleration = { 0.0, 0.0 };
 	float rotation = 0.0f;
 	float gravityScale = 1.0f;
-
+	float surface = 1.0f;
+	float width = 1.0f;
+	float height = 1.0f;
+	float radius = 1.0f;
 	RigidBodyType type = STATIC;
-	ShapeType shape = RECT;
+	ShapeType shape = ShapeType::RECT;
 
 	float maximumVelocity = 1000.0f;
 
 	fPoint totalForce = { 0.0, 0.0 };
 	fPoint additionalForce = { 0.0, 0.0 };
 
+	List<RigidBody*> collisionList;
+
 public:
 	RigidBody();
 
-	RigidBody(fPoint pos, RigidBodyType type, ShapeType shape);
+	~RigidBody();
+
+	RigidBody(fPoint pos, RigidBodyType type,float width,float height);
+
+	RigidBody(fPoint pos, RigidBodyType type, float radius);
 
 	RigidBody(RigidBody& copy);
 
@@ -82,11 +92,11 @@ public:
 		this->mass = mass;
 	}
 
-	float GetDrag()
+	float GetDragCoheficient()
 	{
 		return drag;
 	}
-	void SetDrag(float drag)
+	void SetDragCoheficient(float drag)
 	{
 		this->drag = drag;
 	}
@@ -103,6 +113,16 @@ public:
 		this->velocity = velocity;
 	}
 
+	void SetGravityScale(float gravityScale)
+	{
+		this->gravityScale = gravityScale;
+	}
+
+	float GetGravityScale()
+	{
+		return gravityScale;
+	}
+
 	float GetRotation()
 	{
 		return rotation;
@@ -111,13 +131,11 @@ public:
 	{
 		this->rotation = rotation;
 	}
+
 private:
 	
 	void ResetForces();
 
-
-
 	friend class PhysCore;
-
 };
 

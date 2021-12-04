@@ -57,8 +57,10 @@ public:
 
 public:
 
-	SDL_Rect rect = { 10,10,50,50 };
+	SDL_Rect rect = { 10,10,10,10 };
+	SDL_Rect rect2 = { 10,10,10,20 };
 	RigidBody* body;
+	RigidBody* body2;
 
 	//Borrar
 	SDL_Rect plant; 

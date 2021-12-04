@@ -93,6 +93,26 @@ public:
 		return(result);
 	}
 
+	Point Normalize()
+	{
+
+		//DEBUG
+		TYPE m = Module();
+
+		Point n;
+
+		if (m == 0)
+		{
+			n = { 0,0 };
+		}
+		else
+		{
+			n = { x / m, y / m };
+		}
+
+		return n;
+	}
+
 	const Point& operator -=(const Point& v)
 	{
 		x -= v.x;
@@ -138,7 +158,7 @@ public:
 		x *= num.x;
 		y *= num.y;
 
-			return(*this);
+		return(*this);
 	}
 
 	bool operator ==(const Point& v) const
@@ -169,6 +189,15 @@ public:
 		y = -y;
 
 		return(*this);
+	}
+
+	TYPE Module()
+	{
+		TYPE m;
+
+		m = sqrt(x * x + y * y);
+
+		return m;
 	}
 
 	// Distances ---------------------------------------------

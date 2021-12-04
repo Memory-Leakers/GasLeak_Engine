@@ -54,6 +54,11 @@ public:
 		return size;
 	}
 
+	void SubstractSize()
+	{
+		size--;
+	}
+
 	// Add new item
 	ListItem<tdata>* add(const tdata& item)
 	{
