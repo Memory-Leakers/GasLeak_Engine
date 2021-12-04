@@ -131,6 +131,10 @@ public:
 	{
 		this->rotation = rotation;
 	}
+	int GetRadius()
+	{
+		return radius;
+	}
 
 private:
 	

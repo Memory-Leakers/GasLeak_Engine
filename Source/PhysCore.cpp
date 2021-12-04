@@ -73,7 +73,14 @@ bool PhysCore::CheckCollision(RigidBody* body)
 	{
 		if (i != rigidBodies.find(body))
 		{
-			BoxCOlBox(*body, *rigidBodies[i]);
+			if (body->shape == ShapeType::RECT && rigidBodies[i]->shape == ShapeType::RECT)
+			{
+				BoxCOlBox(*body, *rigidBodies[i]);
+			}
+			if (body->shape == ShapeType::CIRCLE && rigidBodies[i]->shape == ShapeType::CIRCLE)
+			{
+				CircleCOlCircle(*body, *rigidBodies[i]);
+			}
 		}
 	}
 	// Collision Circle && Rect
@@ -131,9 +138,46 @@ bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 
 bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 {
+	// Check b1 & b2 is CIRCLE
+	if (b1.shape != ShapeType::CIRCLE || b2.shape != ShapeType::CIRCLE) return false;
 
 
-	return false;
+
+		float distX = b1.position.x - b2.position.x;
+		float distY = b1.position.y - b2.position.y;
+		float distance = sqrt(pow(distX,2) + pow(distY, 2));
+		//Collision
+	if (distance <= b1.radius + b2.radius)
+	{
+		for (int i = 0; i < b1.collisionList.count(); i++)
+		{
+			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+			{
+				printf("CIRCLE COL CIRCLE STAY\n");
+				return true;
+			}
+		}
+
+		b1.collisionList.add(&b2);
+		printf("CIRCLE COL CIRCLE ENTER\n");
+		return true;
+	}
+
+		//No Collision
+
+	if (distance > b1.radius + b2.radius)
+	{
+		for (int i = 0; i < b1.collisionList.count(); i++)
+		{
+			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+			{
+				printf("CIRCLE COL CIRCLE EXIT\n");
+				b1.collisionList[i] = nullptr;
+				b1.collisionList.SubstractSize();
+			}
+		}
+	}
+
 }
 
 
@@ -181,5 +225,3 @@ bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 
 	return false;
 }
-
-
