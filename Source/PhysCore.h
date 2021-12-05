@@ -16,11 +16,13 @@ public:
 
 	void DeleteRigidBody(RigidBody* body);
 
-	bool BoxCOlBox(RigidBody& b1, RigidBody& b2);
+	bool BoxColBox(RigidBody& b1, RigidBody& b2);
 
-	bool CircleCOlCircle(RigidBody& b1, RigidBody& b2);
+	bool CircleColCircle(RigidBody& b1, RigidBody& b2);
 
-	bool BoxCOlCircle(RigidBody& b1, RigidBody& b2);
+	bool BoxColCircle(RigidBody& b1, RigidBody& b2);
+
+	void ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint);
 
 	void SetWind(fPoint windforce) 
 	{
@@ -42,6 +44,10 @@ public:
 		return gravity;
 	}
 
+	fPoint CollisionPoint(RigidBody& b1, RigidBody& b2);
+
+	fPoint CollisionDir(RigidBody& b1, fPoint colPoint);
+
 private:
 
 	fPoint gravity;
@@ -50,8 +56,9 @@ private:
 
 	fPoint wind = { 0,0 };
 
+	int resolveColForce = 5;
+
 public:
 
 	List<RigidBody*> rigidBodies;
 };
-

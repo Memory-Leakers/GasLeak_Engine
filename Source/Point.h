@@ -95,7 +95,6 @@ public:
 
 	Point Normalize()
 	{
-
 		//DEBUG
 		TYPE m = Module();
 

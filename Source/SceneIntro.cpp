@@ -19,28 +19,28 @@ bool SceneIntro::Start()
 
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
+	world = new PhysCore({ 0, 100});
 
-	world = new PhysCore({ 0, 10});
+	body = new RigidBody({ 200, 500 }, RigidBodyType::STATIC, rect.w, rect.h);
+	
+	//body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
 
-	//body = new RigidBody({ 500, 300 }, RigidBodyType::DYNAMIC, rect.w, rect.h);
+	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 5);
+	body3->SetRestitution(0.7f);
 
-	body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
+	body4 = new RigidBody({ 445, 500 }, RigidBodyType::STATIC, 10);
 
-	body3 = new RigidBody({ 300, 300 }, RigidBodyType::DYNAMIC, 20);
-
-	//body4 = new RigidBody({ 500, 200 }, RigidBodyType::DYNAMIC, 10);
-
-	body2->SetGravityScale(2.0f);
+	//body2->SetGravityScale(2.0f);
 
 	//body4->SetGravityScale(2.0f);
 
-	//world->AddRigidBody(body);
+	world->AddRigidBody(body);
 
-	world->AddRigidBody(body2);
+	//world->AddRigidBody(body2);
 
 	world->AddRigidBody(body3);
 
-	//world->AddRigidBody(body4);
+	world->AddRigidBody(body4);
 	return ret;
 }
 
@@ -57,6 +57,8 @@ bool SceneIntro::CleanUp()
 // Update: draw background
 bool SceneIntro::Update()
 {
+	world->Update(1.0 / 60);
+
 	if(_app->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
 	{
 		world->Update(1.0 / 60);
@@ -66,12 +68,28 @@ bool SceneIntro::Update()
 		world->Update(1.0 / 60);
 	}
 
-	//printf_s("Position: %f\t %f\n", body->GetPosition().x, body->GetPosition().y);
-
-
-	if (_app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	if (_app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		body->AddForceToCenter({ 0, -20 });
+		body3->AddForceToCenter({ 0, -200 });
+		//body3->SetLinearVelocity({ body3->GetLinearVelocity().x,-200 });
+	}
+
+	if (_app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		body3->AddForceToCenter({ -200, 0 });
+		//body3->SetLinearVelocity({ -200,0 });
+	}
+
+	if (_app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		body3->AddForceToCenter({ 200, 0 });
+		//body3->SetLinearVelocity({ 200,0 });
+	}
+
+	if (_app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		body3->AddForceToCenter({ 0, 200 });
+		//body3->SetLinearVelocity({ 0,200 });
 	}
 
 	return true;
@@ -79,20 +97,19 @@ bool SceneIntro::Update()
 
 bool SceneIntro::PostUpdate()
 {
-
-	/*rect.x = body->GetPosition().x;
+	rect.x = body->GetPosition().x;
 	rect.y = body->GetPosition().y;
 
-	_app->renderer->DrawQuad(rect, 255, 0,0, 255);*/
+	_app->renderer->DrawQuad(rect, 255, 0,0, 255);
 
-	rect2.x = body2->GetPosition().x;
-	rect2.y = body2->GetPosition().y;
+	//rect2.x = body2->GetPosition().x;
+	//rect2.y = body2->GetPosition().y;
 
-	_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
+	//_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
 
 	_app->renderer->DrawCircle(body3->GetPosition().x, body3->GetPosition().y, body3->GetRadius(), 255, 0, 0);
 
-	//_app->renderer->DrawCircle(body4->GetPosition().x, body4->GetPosition().y, body4->GetRadius(), 0, 255, 0);
+	_app->renderer->DrawCircle(body4->GetPosition().x, body4->GetPosition().y, body4->GetRadius(), 0, 255, 0);
 
 	return true;
 }

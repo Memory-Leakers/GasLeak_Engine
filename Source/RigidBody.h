@@ -34,6 +34,7 @@ private:
 	float width = 1.0f;
 	float height = 1.0f;
 	float radius = 1.0f;
+
 	RigidBodyType type = STATIC;
 	ShapeType shape = ShapeType::RECT;
 
@@ -43,6 +44,8 @@ private:
 	fPoint additionalForce = { 0.0, 0.0 };
 
 	List<RigidBody*> collisionList;
+
+	iPoint ColDir = { 0, 0 };
 
 public:
 	RigidBody();
@@ -54,6 +57,12 @@ public:
 	RigidBody(fPoint pos, RigidBodyType type, float radius);
 
 	RigidBody(RigidBody& copy);
+
+	void OnCollisionEnter(RigidBody* col);
+
+	void OnCollisionStay(RigidBody* col);
+
+	void OnCollisionExit(RigidBody* col);
 
 	void AddForceToCenter(fPoint force);
 

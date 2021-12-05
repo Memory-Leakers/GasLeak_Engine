@@ -44,6 +44,21 @@ RigidBody::RigidBody(RigidBody& copy)
 	this->gravityScale = copy.gravityScale;
 }
 
+void RigidBody::OnCollisionEnter(RigidBody* col)
+{
+	printf("Col enter\n");
+}
+
+void RigidBody::OnCollisionStay(RigidBody* col)
+{
+	printf("Col stay\n");
+}
+
+void RigidBody::OnCollisionExit(RigidBody* col)
+{
+	printf("Col exit\n");
+}
+
 void RigidBody::AddForceToCenter(fPoint force)
 {
 	additionalForce += force;

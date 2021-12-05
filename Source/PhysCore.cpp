@@ -1,4 +1,4 @@
-#include "PhysCore.h"
+﻿#include "PhysCore.h"
 #include <algorithm>
 
 PhysCore::PhysCore(fPoint gravity)
@@ -15,6 +15,8 @@ void PhysCore::Update(float simulationTime)
 {
 	for (int i = 0; i < rigidBodies.count(); i++)
 	{
+		if (rigidBodies[i]->type == RigidBodyType::STATIC || rigidBodies[i] == nullptr) continue;
+
 		// Step #0 Reset acceleration and forces
 
 		rigidBodies[i]->ResetForces();
@@ -53,6 +55,13 @@ void PhysCore::Update(float simulationTime)
 		// Step #2 Calculate Newton's Second law (acceleration)
 		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
 
+		// Chek if collision Stay
+		for (int j = 0; j < rigidBodies[i]->collisionList.count() ; j++)
+		{
+			fPoint colPoint = CollisionPoint(*rigidBodies[i], *rigidBodies[i]->collisionList[j]);
+			ResolveColForce(*rigidBodies[i], *rigidBodies[i]->collisionList[j], colPoint);
+		}
+
 		// Step #3 Integrate with Verlet
 		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
 		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
@@ -61,34 +70,36 @@ void PhysCore::Update(float simulationTime)
 	// Despues de mover todos los objetos comparan la colision.
 	for (int i = 0; i < rigidBodies.count(); i++)
 	{
-		// Step #4: solve collisions
-		CheckCollision(rigidBodies[i]);
+		if (rigidBodies[i]->type == RigidBodyType::DYNAMIC) 
+		{
+			// Step #4: solve collisions
+			CheckCollision(rigidBodies[i]);
+		}
 	}
 }
 
 bool PhysCore::CheckCollision(RigidBody* body)
 {
-	//Check if body is colliding with any other body on rigidBodies
+	// Check if body is colliding with any other body on rigidBodies
 	for (int i = 0; i < rigidBodies.count(); i++)
 	{
+		// If not is self
 		if (i != rigidBodies.find(body))
 		{
 			if (body->shape == ShapeType::RECT && rigidBodies[i]->shape == ShapeType::RECT)
 			{
-				BoxCOlBox(*body, *rigidBodies[i]);
+				BoxColBox(*body, *rigidBodies[i]);
 			}
-			if (body->shape == ShapeType::CIRCLE && rigidBodies[i]->shape == ShapeType::CIRCLE)
+			else if (body->shape == ShapeType::CIRCLE && rigidBodies[i]->shape == ShapeType::CIRCLE)
 			{
-				CircleCOlCircle(*body, *rigidBodies[i]);
+				CircleColCircle(*body, *rigidBodies[i]);
 			}
-			if (body->shape == ShapeType::CIRCLE && rigidBodies[i]->shape == ShapeType::RECT)
+			else // CIRCLE col RECT || RECT col CIRCLE
 			{
-				BoxCOlCircle(*body, *rigidBodies[i]);
+				BoxColCircle(*body, *rigidBodies[i]);
 			}
 		}
 	}
-	// Collision Circle && Rect
-	//https://www.cnblogs.com/shadow-lr/p/BoxCircleIntersect.html
 	return true;
 }
 
@@ -102,11 +113,8 @@ void PhysCore::DeleteRigidBody(RigidBody* body)
 	rigidBodies.del(rigidBodies.At(rigidBodies.find(body)));
 }
 
-bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
+bool PhysCore::BoxColBox(RigidBody& b1, RigidBody& b2)
 {
-	// Check b1 & b2 is RECT
-	if (b1.shape != ShapeType::RECT || b2.shape != ShapeType::RECT) return false;
-
 	// No collision case
 	if (b1.position.x > b2.position.x + b2.width ||
 		b1.position.x + b1.width < b2.position.x ||
@@ -115,38 +123,41 @@ bool PhysCore::BoxCOlBox(RigidBody& b1, RigidBody& b2)
 	{
 		for (int i = 0; i < b1.collisionList.count(); i++)
 		{
+			// Collision Exit
 			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 			{
-				printf("BOX COL BOX EXIT\n");
-				b1.collisionList[i] = nullptr;
-				b1.collisionList.SubstractSize();
-			}
+				b1.OnCollisionExit(&b2);
+				b1.collisionList.remove(b1.collisionList.At(b1.collisionList.find(&b2)));	
+;			}
 		}
-
 		return false;
 	}
 
 	// Collision case
 	for (int i = 0; i < b1.collisionList.count(); i++)
 	{
+		// Collision stay
 		if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 		{
-			printf("BOX COL BOX STAY\n");
+			b1.OnCollisionStay(&b2);
+			ResolveColForce(b1, b2, CollisionPoint(b1, b2));
 			return true;
 		}
 	}
+
+	// Collision Enter
 	b1.collisionList.add(&b2);
-	printf("BOX COL BOX ENTER\n");
+	b1.OnCollisionEnter(&b2);
+	ResolveColForce(b1, b2, CollisionPoint(b1, b2));
 	return true;
 }
 
-bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
+bool PhysCore::CircleColCircle(RigidBody& b1, RigidBody& b2)
 {
-	// Check b1 & b2 is CIRCLE
-	if (b1.shape != ShapeType::CIRCLE || b2.shape != ShapeType::CIRCLE) return false;
-		float distX = b1.position.x - b2.position.x;
-		float distY = b1.position.y - b2.position.y;
-		float distance = sqrt(pow(distX,2) + pow(distY, 2));
+	float distX = b1.position.x - b2.position.x;
+	float distY = b1.position.y - b2.position.y;
+	float distance = sqrt(pow(distX, 2) + pow(distY, 2));
+
 	//Collision
 	if (distance <= b1.radius + b2.radius)
 	{
@@ -154,13 +165,17 @@ bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 		{
 			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 			{
-				printf("CIRCLE COL CIRCLE STAY\n");
+				b1.OnCollisionStay(&b2);
 				return true;
 			}
 		}
 
 		b1.collisionList.add(&b2);
-		printf("CIRCLE COL CIRCLE ENTER\n");
+		b1.OnCollisionEnter(&b2);
+
+		fPoint colPoint = CollisionPoint(b1, b2);
+
+		ResolveColForce(b1, b2, colPoint);
 		return true;
 	}
 
@@ -171,19 +186,18 @@ bool PhysCore::CircleCOlCircle(RigidBody& b1, RigidBody& b2)
 		{
 			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 			{
-				printf("CIRCLE COL CIRCLE EXIT\n");
-				b1.collisionList[i] = nullptr;
-				b1.collisionList.SubstractSize();
+				b1.OnCollisionExit(&b2);
+				b1.collisionList.remove(b1.collisionList.At(b1.collisionList.find(&b2)));
 			}
 		}
 	}
 }
 
-bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
+bool PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2)
 {
 	RigidBody* circ;
 	RigidBody* rect;
-	fPoint offset;
+	fPoint colPoint;
 
 	float height;
 	float width;
@@ -200,27 +214,195 @@ bool PhysCore::BoxCOlCircle(RigidBody& b1, RigidBody& b2)
 		circ = &b1;
 	}
 
-	height = rect->height * 0.5f;
-	width = rect->width * 0.5f;
+	colPoint = CollisionPoint(*circ, *rect);
 
-	offset = circ->GetPosition() - rect->GetPosition();
+	distance = (colPoint - circ->GetPosition()).magnitude();
 
-	offset.x = MAX(-width, MIN(width, offset.x));
-	offset.y = MAX(-height, MIN(height, offset.y));
-
-	offset = rect->GetPosition() + offset;
-
-	distance = (offset - circ->GetPosition()).magnitude();
-
+	// Collision case
 	if (distance <= circ->GetRadius())
 	{
-		printf("COLLISION BOX CIRCLE\n");
+		for (int i = 0; i < b1.collisionList.count(); i++)
+		{
+			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+			{
+				b1.OnCollisionStay(&b2);
+				ResolveColForce(b1, b2, colPoint);
+				return true;
+			}
+		}
+		b1.collisionList.add(&b2);
+		b1.OnCollisionEnter(&b2);
+		ResolveColForce(b1, b2, colPoint);
 		return true;
 	}
-	else
+
+	// No collision case
+	for (int i = 0; i < b1.collisionList.count(); i++)
 	{
-		return false;
+		if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
+		{	
+			b1.OnCollisionExit(&b2);
+			b1.collisionList.remove(b1.collisionList.At(b1.collisionList.find(&b2)));
+		}
 	}
 
 	return false;
+}
+
+/// <summary>
+/// Just resolve Dynamic body && Static body
+/// </summary>
+/// <param name="b1"></param>
+/// <param name="b2"></param>
+/// <param name="colPoint"></param>
+void PhysCore::ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint)
+{
+	RigidBody* dinBody;
+	RigidBody* staticBody;
+
+	if (b1.type == RigidBodyType::DYNAMIC && b2.type == RigidBodyType::STATIC)
+	{
+		dinBody = &b1;
+		staticBody = &b2;
+	}
+	else if(b2.type == RigidBodyType::DYNAMIC && b1.type == RigidBodyType::STATIC)
+	{
+		dinBody = &b2;
+		staticBody = &b1;
+	}
+	else
+	{
+		printf("Canno't resolve collision force!");
+		return;
+	}
+
+	fPoint b1Vel = dinBody->GetLinearVelocity();
+
+	fPoint colCondition;
+
+	// init Col Point codition
+	if (b1.shape == b2.shape)
+	{
+		if (b1.shape == ShapeType::CIRCLE)
+		{
+			// circle && circle
+			//colCondition = colPoint;
+
+			colCondition = CollisionDir(*dinBody, colPoint);
+
+			fPoint direction = CollisionDir(*dinBody, colPoint);
+			float velMagnitud = b1Vel.magnitude();
+			b1Vel = direction * velMagnitud * b1.restitution;
+		}
+	}
+	else
+	{
+		// circle && rect
+		colCondition = CollisionDir(*dinBody, colPoint);
+
+		if (abs(colCondition.x) > abs(colCondition.y))
+		{
+			// colision en eje x
+			if (colCondition.x > 0 && b1Vel.x <= 0 || colCondition.x < 0 && b1Vel.x >= 0)
+			{
+				//if (b1Vel.x == 0)b1Vel.x = resolveColForce * colCondition.x;
+				b1Vel.x *= -dinBody->restitution;
+			}
+		}
+		else
+		{
+			if (colCondition.y < 0 && b1Vel.y >= 0 || colCondition.y > 0 && b1Vel.y <= 0)
+			{
+				//if (b1Vel.y == 0)b1Vel.y = -resolveColForce * colCondition.y;
+				b1Vel.y *= -dinBody->restitution;
+			}
+		}
+	}
+
+	if (colCondition.y > 0 && dinBody->acceleration.y < 0 || colCondition.y < 0 && dinBody->acceleration.y > 0)
+	{
+		b1.acceleration.y = 0;
+	}
+	if (colCondition.x > 0 && dinBody->acceleration.x < 0 || colCondition.x < 0 && dinBody->acceleration.x > 0)
+	{
+		b1.acceleration.x = 0;
+	}
+
+	// Si el movimiento es muy flojo, ignora
+	b1Vel.x = abs(b1Vel.x) < dinBody->restitution*10 ? 0 : b1Vel.x;
+	b1Vel.y = abs(b1Vel.y) < dinBody->restitution*10 ? 0 : b1Vel.y;
+
+	dinBody->SetLinearVelocity(b1Vel);
+}
+
+fPoint PhysCore::CollisionPoint(RigidBody& b1, RigidBody& b2)
+{
+	fPoint collisionPoint;
+
+	// Check RECT RECT collision point
+	if (b1.shape == ShapeType::RECT && b2.shape == ShapeType::RECT)
+	{
+		// PUNTO DE COLISION???
+		collisionPoint = { b1.velocity.x, b1.velocity.y };
+
+		// col eje X
+		if(b1.velocity.y == 0)
+		{
+			if(b1.velocity.x > 0)
+			{
+				collisionPoint.x += b1.width;
+			}
+			else if (b1.velocity.x < 0)
+			{
+				collisionPoint.x -= b1.width;
+			}
+		}
+		// col eje y
+		else if (b1.velocity.x == 0)
+		{
+			if (b1.velocity.y > 0)
+			{
+				collisionPoint.x += b1.height;
+			}
+			else if (b1.velocity.y < 0)
+			{
+				collisionPoint.x -= b1.height;
+			}
+		}
+
+		// NO FUNCIONA FALTA CASO DE MOVIMIENTO DIAGONAL
+	}
+	// Check CIRCLE CIRCLE collision point
+	if (b1.shape == ShapeType::CIRCLE && b2.shape == ShapeType::CIRCLE)
+	{
+		fPoint dir = b1.GetPosition() - b2.GetPosition();
+
+		dir *= -1;
+		// PUNTO DE COLISION!!!!!
+		collisionPoint = b1.GetPosition() + dir.Normalize() * b1.radius;
+	}
+	// Check CIRCLE RECT collision point
+	else // CIRCLE col RECT || RECT col CIRCLE
+	{
+		float height = b2.height * 0.5f;
+		float width = b2.width * 0.5f;
+
+		collisionPoint = b1.GetPosition() - b2.GetPosition();
+
+		collisionPoint.x = MAX(-width, MIN(width, collisionPoint.x));
+		collisionPoint.y = MAX(-height, MIN(height, collisionPoint.y));
+
+		// PUNTO DE COLISION!!!!!
+		collisionPoint = b2.GetPosition() + collisionPoint;
+	}
+	return collisionPoint;
+}
+
+fPoint PhysCore::CollisionDir(RigidBody& b1, fPoint colPoint)
+{
+	fPoint dir = b1.GetPosition() - colPoint;
+
+	dir = dir.Normalize();
+
+	return dir;
 }

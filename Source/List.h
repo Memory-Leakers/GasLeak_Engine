@@ -121,6 +121,45 @@ public:
 		return(true);
 	}
 
+	// Remove an itrm from the list
+	bool remove(ListItem<tdata>* item)
+	{
+		if (item == NULL)
+		{
+			return (false);
+		}
+
+		// Now reconstruct the list
+		if (item->prev != NULL)
+		{
+			item->prev->next = item->next;
+
+			if (item->next != NULL)
+			{
+				item->next->prev = item->prev;
+			}
+			else
+			{
+				end = item->prev;
+			}
+		}
+		else
+		{
+			if (item->next)
+			{
+				item->next->prev = NULL;
+				start = item->next;
+			}
+			else
+			{
+				start = end = NULL;
+			}
+		}
+
+		--size;
+		return(true);
+	}
+
 	// Destroy and free all mem
 	void clear()
 	{
