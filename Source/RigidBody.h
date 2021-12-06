@@ -156,6 +156,27 @@ public:
 		return radius;
 	}
 
+	bool Contains(fPoint pos)
+	{
+		if(shape == ShapeType::RECT)
+		{
+			if (pos.x >= position.x - width/2 && pos.x <= position.x + width/2 &&
+				pos.y >= position.y - height/2 && pos.y <= position.y + height/2)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (sqrt(pow(position.x - pos.x, 2) + pow(position.y - pos.y, 2)) <= radius)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 private:
 	
 	void ResetForces();

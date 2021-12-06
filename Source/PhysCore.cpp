@@ -131,7 +131,7 @@ void PhysCore::DeleteRigidBody(RigidBody* body)
 	rigidBodies.del(rigidBodies.At(rigidBodies.find(body)));
 }
 
-bool PhysCore::BoxColBox(RigidBody& b1, RigidBody& b2)
+COL_TYPE PhysCore::BoxColBox(RigidBody& b1, RigidBody& b2, bool trigger)
 {
 	// No collision case
 	if (b1.position.x > b2.position.x + b2.width ||
@@ -148,18 +148,22 @@ bool PhysCore::BoxColBox(RigidBody& b1, RigidBody& b2)
 				b1.collisionList.remove(b1.collisionList.At(b1.collisionList.find(&b2)));	
 ;			}
 		}
-		return false;
+		return NONE;
 	}
 
 	// Collision case
 	for (int i = 0; i < b1.collisionList.count(); i++)
 	{
+		if (trigger)
+		{
+			return TRIGGER;
+		}
 		// Collision stay
 		if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 		{
 			b1.OnCollisionStay(&b2);
 			ResolveColForce(b1, b2, CollisionPoint(b1, b2));
-			return true;
+			return COLLISION;
 		}
 	}
 
@@ -167,10 +171,10 @@ bool PhysCore::BoxColBox(RigidBody& b1, RigidBody& b2)
 	b1.collisionList.add(&b2);
 	b1.OnCollisionEnter(&b2);
 	ResolveColForce(b1, b2, CollisionPoint(b1, b2));
-	return true;
+	return COLLISION;
 }
 
-bool PhysCore::CircleColCircle(RigidBody& b1, RigidBody& b2)
+COL_TYPE PhysCore::CircleColCircle(RigidBody& b1, RigidBody& b2, bool trigger)
 {
 	float distX = b1.position.x - b2.position.x;
 	float distY = b1.position.y - b2.position.y;
@@ -179,12 +183,16 @@ bool PhysCore::CircleColCircle(RigidBody& b1, RigidBody& b2)
 	//Collision
 	if (distance <= b1.radius + b2.radius)
 	{
+		if (trigger)
+		{
+			return TRIGGER;
+		}
 		for (int i = 0; i < b1.collisionList.count(); i++)
 		{
 			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 			{
 				b1.OnCollisionStay(&b2);
-				return true;
+				return COLLISION;
 			}
 		}
 
@@ -194,7 +202,7 @@ bool PhysCore::CircleColCircle(RigidBody& b1, RigidBody& b2)
 		fPoint colPoint = CollisionPoint(b1, b2);
 
 		ResolveColForce(b1, b2, colPoint);
-		return true;
+		return COLLISION;
 	}
 
 	//No Collision
@@ -211,7 +219,7 @@ bool PhysCore::CircleColCircle(RigidBody& b1, RigidBody& b2)
 	}
 }
 
-bool PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2)
+COL_TYPE PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger)
 {
 	RigidBody* circ;
 	RigidBody* rect;
@@ -239,19 +247,24 @@ bool PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2)
 	// Collision case
 	if (distance <= circ->GetRadius())
 	{
+		if (trigger)
+		{
+			return TRIGGER;
+		}
+
 		for (int i = 0; i < b1.collisionList.count(); i++)
 		{
 			if (rigidBodies.find(b1.collisionList[i]) == rigidBodies.find(&b2))
 			{
 				b1.OnCollisionStay(&b2);
 				ResolveColForce(b1, b2, colPoint);
-				return true;
+				return COLLISION;
 			}
 		}
 		b1.collisionList.add(&b2);
 		b1.OnCollisionEnter(&b2);
 		ResolveColForce(b1, b2, colPoint);
-		return true;
+		return COLLISION;
 	}
 
 	// No collision case
@@ -264,7 +277,7 @@ bool PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2)
 		}
 	}
 
-	return false;
+	return NONE;
 }
 
 /// <summary>

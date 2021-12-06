@@ -1,6 +1,15 @@
 #pragma once
 #include "RigidBody.h"
 #include "List.h"
+
+enum COL_TYPE
+{
+	NONE = 0,
+	COLLISION,
+	TRIGGER
+};
+
+
 class PhysCore
 {
 public:
@@ -16,11 +25,11 @@ public:
 
 	void DeleteRigidBody(RigidBody* body);
 
-	bool BoxColBox(RigidBody& b1, RigidBody& b2);
+	COL_TYPE BoxColBox(RigidBody& b1, RigidBody& b2, bool trigger = false);
 
-	bool CircleColCircle(RigidBody& b1, RigidBody& b2);
+	COL_TYPE CircleColCircle(RigidBody& b1, RigidBody& b2, bool trigger = false);
 
-	bool BoxColCircle(RigidBody& b1, RigidBody& b2);
+	COL_TYPE BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger = false);
 
 	void ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint);
 
