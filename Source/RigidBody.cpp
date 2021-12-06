@@ -32,7 +32,7 @@ RigidBody::RigidBody(RigidBody& copy)
 	this->acceleration = copy.acceleration;
 	this->velocity = copy.velocity;
 	this->friction = copy.friction;
-	this->drag = copy.drag;
+	this->coefficientDrag = copy.coefficientDrag;
 	this->mass = copy.mass;
 	this->restitution = copy.restitution;
 	this->rotation = copy.rotation;

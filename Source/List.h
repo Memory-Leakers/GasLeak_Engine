@@ -155,7 +155,7 @@ public:
 				start = end = NULL;
 			}
 		}
-
+		RELEASE(item);
 		--size;
 		return(true);
 	}

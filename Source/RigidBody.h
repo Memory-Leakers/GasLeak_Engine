@@ -7,6 +7,7 @@ enum RigidBodyType
 	STATIC,
 	DYNAMIC,
 	KINEMATIC,
+	WATER,
 };
 
 enum class ShapeType
@@ -24,7 +25,8 @@ private:
 	//Properties
 	float restitution = 0.0f;
 	float friction = 0.0f;
-	float drag = 0.0f;
+	float coefficientDrag = 0.0f;
+	float hydrodynamicDrag = 0.0f;
 	float mass = 1.0f;
 	fPoint velocity = { 0.0f, 0.0f };
 	fPoint acceleration = { 0.0, 0.0 };
@@ -101,13 +103,22 @@ public:
 		this->mass = mass;
 	}
 
-	float GetDragCoheficient()
+	float GetDragCoeficient()
 	{
-		return drag;
+		return coefficientDrag;
 	}
-	void SetDragCoheficient(float drag)
+	void SetDragCoeficient(float drag)
 	{
-		this->drag = drag;
+		this->coefficientDrag = drag;
+	}
+
+	float GetHydrodynamicDragCoeficient()
+	{
+		return hydrodynamicDrag;
+	}
+	void SetHydrodynamicDragCoeficient(float hydrodrag)
+	{
+		this->hydrodynamicDrag = hydrodrag;
 	}
 
 	fPoint GetLinearVelocity()

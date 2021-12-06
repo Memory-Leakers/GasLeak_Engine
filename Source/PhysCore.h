@@ -24,6 +24,8 @@ public:
 
 	void ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint);
 
+	float submergedVolume(RigidBody* body, RigidBody* water);
+
 	void SetWind(fPoint windforce) 
 	{
 		wind = windforce;
@@ -52,7 +54,7 @@ private:
 
 	fPoint gravity;
 
-	float density = 1.0f;
+	float density = 0.01f;
 
 	fPoint wind = { 0,0 };
 

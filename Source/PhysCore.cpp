@@ -15,7 +15,7 @@ void PhysCore::Update(float simulationTime)
 {
 	for (int i = 0; i < rigidBodies.count(); i++)
 	{
-		if (rigidBodies[i]->type == RigidBodyType::STATIC || rigidBodies[i] == nullptr) continue;
+		if (rigidBodies[i]->type == RigidBodyType::STATIC || rigidBodies[i]->type == RigidBodyType::WATER || rigidBodies[i] == nullptr) continue;
 
 		// Step #0 Reset acceleration and forces
 
@@ -40,7 +40,7 @@ void PhysCore::Update(float simulationTime)
 		relativeVelocityModule = relativeVelocity.Module();
 
 		// Calcular el magnitud del drag
-		magnitudDrag = 0.5f * density * rigidBodies[i]->surface * pow(relativeVelocityModule,2) * rigidBodies[i]->GetDragCoheficient();
+		magnitudDrag = 0.5f * density * rigidBodies[i]->surface * pow(relativeVelocityModule,2) * rigidBodies[i]->GetDragCoeficient();
 
 		fPoint nor = relativeVelocity.Normalize();
 
@@ -58,8 +58,26 @@ void PhysCore::Update(float simulationTime)
 		// Chek if collision Stay
 		for (int j = 0; j < rigidBodies[i]->collisionList.count() ; j++)
 		{
-			fPoint colPoint = CollisionPoint(*rigidBodies[i], *rigidBodies[i]->collisionList[j]);
-			ResolveColForce(*rigidBodies[i], *rigidBodies[i]->collisionList[j], colPoint);
+			if (rigidBodies[i]->collisionList[j]->type == RigidBodyType::WATER)
+			{
+				//Buoyancy (Density * gravity * area of the object flooded)
+
+				fPoint buoyancyForce;
+				float magnitudbuoyancy;
+				fPoint direct = { 0, -10 };
+				fPoint direction = direct.Normalize();
+
+				magnitudbuoyancy = density * gravity.Module()  * submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
+
+				buoyancyForce = direction * magnitudbuoyancy * rigidBodies[i]->hydrodynamicDrag;
+
+				rigidBodies[i]->AddForceToCenter(buoyancyForce);
+			}
+			else
+			{
+				fPoint colPoint = CollisionPoint(*rigidBodies[i], *rigidBodies[i]->collisionList[j]);
+				ResolveColForce(*rigidBodies[i], *rigidBodies[i]->collisionList[j], colPoint);
+			}
 		}
 
 		// Step #3 Integrate with Verlet
@@ -257,9 +275,10 @@ bool PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2)
 /// <param name="colPoint"></param>
 void PhysCore::ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint)
 {
+
 	RigidBody* dinBody;
 	RigidBody* staticBody;
-
+	
 	if (b1.type == RigidBodyType::DYNAMIC && b2.type == RigidBodyType::STATIC)
 	{
 		dinBody = &b1;
@@ -269,6 +288,12 @@ void PhysCore::ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint)
 	{
 		dinBody = &b2;
 		staticBody = &b1;
+	}
+	else if (b2.type == RigidBodyType::WATER || b1.type == RigidBodyType::WATER)
+	{
+		dinBody = &b1;
+		staticBody = &b2;
+		return;
 	}
 	else
 	{
@@ -405,4 +430,31 @@ fPoint PhysCore::CollisionDir(RigidBody& b1, fPoint colPoint)
 	dir = dir.Normalize();
 
 	return dir;
+}
+
+float PhysCore::submergedVolume(RigidBody* body,RigidBody* water)
+{
+	if (body->shape == ShapeType::CIRCLE)
+	{
+		//Obtain the water Y position substracting his height because the pos of the body is in the center
+		float waterYpos = water->GetPosition().y - water->height/2;
+
+		float bodySubmergedHeight = body->GetPosition().y + body->radius - waterYpos;
+
+		float totalsubmergedarea = bodySubmergedHeight * body->radius * 2;
+
+		return totalsubmergedarea * SQUARETOCIRCLE;
+	}
+
+	if (body->shape == ShapeType::RECT)
+	{
+		//Obtain the water Y position substracting his height because the pos of the body is in the center
+		float waterYpos = water->GetPosition().y - water->height / 2;
+
+		float bodySubmergedHeight = body->GetPosition().y + body->height/2 - waterYpos;
+
+		float totalsubmergedarea = bodySubmergedHeight * body->width;
+
+		return totalsubmergedarea;
+	}
 }

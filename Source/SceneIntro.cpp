@@ -19,20 +19,24 @@ bool SceneIntro::Start()
 
 	_app->renderer->camera.x = _app->renderer->camera.y = 0;
 
-	world = new PhysCore({ 0, 100});
+	world = new PhysCore({ 0, 10});
 
-	body = new RigidBody({ 200, 500 }, RigidBodyType::STATIC, rect.w, rect.h);
+	body = new RigidBody({ 200, 500 }, RigidBodyType::WATER, rect.w, rect.h);
 	
 	//body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
 
-	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 5);
+	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 15);
 	body3->SetRestitution(0.7f);
+	body3->SetDragCoeficient(1.0f);
+	body3->SetHydrodynamicDragCoeficient(0.5f);
 
 	body4 = new RigidBody({ 445, 500 }, RigidBodyType::STATIC, 10);
 
 	//body2->SetGravityScale(2.0f);
 
 	//body4->SetGravityScale(2.0f);
+
+	
 
 	world->AddRigidBody(body);
 
@@ -100,7 +104,7 @@ bool SceneIntro::PostUpdate()
 	rect.x = body->GetPosition().x;
 	rect.y = body->GetPosition().y;
 
-	_app->renderer->DrawQuad(rect, 255, 0,0, 255);
+	_app->renderer->DrawQuad(rect, 0, 255,0, 155);
 
 	//rect2.x = body2->GetPosition().x;
 	//rect2.y = body2->GetPosition().y;

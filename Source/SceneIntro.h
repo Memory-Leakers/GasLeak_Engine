@@ -57,7 +57,7 @@ public:
 
 public:
 
-	SDL_Rect rect = { 10,10,500,20 };
+	SDL_Rect rect = { 10,10,500,500 };
 	SDL_Rect rect2 = { 10,10,20,20 };
 
 	RigidBody* body;
