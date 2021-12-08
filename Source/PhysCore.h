@@ -63,7 +63,7 @@ private:
 
 	fPoint gravity;
 
-	float density = 0.01f;
+	float density = 1.0f;
 
 	fPoint wind = { 0,0 };
 

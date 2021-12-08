@@ -21,30 +21,27 @@ bool SceneIntro::Start()
 
 	world = new PhysCore({ 0, 10});
 
-	body = new RigidBody({ 200, 500 }, RigidBodyType::WATER, rect.w, rect.h);
+	body = new RigidBody({ 200, 600 }, RigidBodyType::WATER, rect.w, rect.h);
 	
-	//body2 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, rect2.w, rect2.h);
+	body2 = new RigidBody({ 300, 240 }, RigidBodyType::STATIC, rect2.w, rect2.h);
 
-	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 15);
+	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 20);
+	//body3->SetMass(20);
 	body3->SetRestitution(0.7f);
-	body3->SetDragCoeficient(1.0f);
-	body3->SetHydrodynamicDragCoeficient(0.5f);
+	body3->SetDragCoeficient(0);
+	body3->SetHydrodynamicDragCoeficient(1.0f);
 
-	body4 = new RigidBody({ 445, 500 }, RigidBodyType::STATIC, 10);
-
-	//body2->SetGravityScale(2.0f);
+	//body4 = new RigidBody({ 445, 500 }, RigidBodyType::STATIC, 10);
 
 	//body4->SetGravityScale(2.0f);
 
-	
-
 	world->AddRigidBody(body);
 
-	//world->AddRigidBody(body2);
+	world->AddRigidBody(body2);
 
 	world->AddRigidBody(body3);
 
-	world->AddRigidBody(body4);
+	//world->AddRigidBody(body4);
 	return ret;
 }
 
@@ -106,14 +103,14 @@ bool SceneIntro::PostUpdate()
 
 	_app->renderer->DrawQuad(rect, 0, 255,0, 155);
 
-	//rect2.x = body2->GetPosition().x;
-	//rect2.y = body2->GetPosition().y;
+	rect2.x = body2->GetPosition().x;
+	rect2.y = body2->GetPosition().y;
 
-	//_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
+	_app->renderer->DrawQuad(rect2, 255, 255, 0, 255);
 
 	_app->renderer->DrawCircle(body3->GetPosition().x, body3->GetPosition().y, body3->GetRadius(), 255, 0, 0);
 
-	_app->renderer->DrawCircle(body4->GetPosition().x, body4->GetPosition().y, body4->GetRadius(), 0, 255, 0);
+	//_app->renderer->DrawCircle(body4->GetPosition().x, body4->GetPosition().y, body4->GetRadius(), 0, 255, 0);
 
 	return true;
 }

@@ -61,13 +61,18 @@ void PhysCore::Update(float simulationTime)
 			if (rigidBodies[i]->collisionList[j]->type == RigidBodyType::WATER)
 			{
 				//Buoyancy (Density * gravity * area of the object flooded)
-
 				fPoint buoyancyForce;
 				float magnitudbuoyancy;
 				fPoint direct = { 0, -10 };
 				fPoint direction = direct.Normalize();
 
-				magnitudbuoyancy = density * gravity.Module()  * submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
+				float mod = gravity.Module();
+
+				// 1 = 100%
+				float submerge = submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
+
+				// *2 = 200% para que pueda subir
+				magnitudbuoyancy = density * mod * submerge * 2;
 
 				buoyancyForce = direction * magnitudbuoyancy * rigidBodies[i]->hydrodynamicDrag;
 
@@ -456,6 +461,8 @@ float PhysCore::submergedVolume(RigidBody* body,RigidBody* water)
 
 		float totalsubmergedarea = bodySubmergedHeight * body->radius * 2;
 
+		totalsubmergedarea /= body->radius * 2 * body->radius * 2;
+
 		return totalsubmergedarea * SQUARETOCIRCLE;
 	}
 
@@ -467,6 +474,8 @@ float PhysCore::submergedVolume(RigidBody* body,RigidBody* water)
 		float bodySubmergedHeight = body->GetPosition().y + body->height/2 - waterYpos;
 
 		float totalsubmergedarea = bodySubmergedHeight * body->width;
+
+		totalsubmergedarea /= body->width * body->height;
 
 		return totalsubmergedarea;
 	}
