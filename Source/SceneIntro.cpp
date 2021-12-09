@@ -29,7 +29,8 @@ bool SceneIntro::Start()
 	//body3->SetMass(20);
 	body3->SetRestitution(0.7f);
 	body3->SetDragCoeficient(0);
-	body3->SetHydrodynamicDragCoeficient(1.0f);
+	body3->SetGravityScale(4);
+	body3->SetHydrodynamicDragCoeficient(0.3f);
 
 	//body4 = new RigidBody({ 445, 500 }, RigidBodyType::STATIC, 10);
 

@@ -18,11 +18,9 @@ void PhysCore::Update(float simulationTime)
 		if (rigidBodies[i]->type == RigidBodyType::STATIC || rigidBodies[i]->type == RigidBodyType::WATER || rigidBodies[i] == nullptr) continue;
 
 		// Step #0 Reset acceleration and forces
-
 		rigidBodies[i]->ResetForces();
 
 		// Step #1 Calculate Forces (TotalForces = GravityForce + AdditionalForce)
-
 		//	gravity
 		rigidBodies[i]->AddForceToCenter(gravity * rigidBodies[i]->gravityScale * rigidBodies[i]->GetMass());
 
@@ -72,11 +70,16 @@ void PhysCore::Update(float simulationTime)
 				float submerge = submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
 
 				// *2 = 200% para que pueda subir
-				magnitudbuoyancy = density * mod * submerge * 2;
+				magnitudbuoyancy = density * mod * submerge * 2 * rigidBodies[i]->GetGravityScale();
 
-				buoyancyForce = direction * magnitudbuoyancy * rigidBodies[i]->hydrodynamicDrag;
+				buoyancyForce = direction * magnitudbuoyancy;
 
 				rigidBodies[i]->AddForceToCenter(buoyancyForce);
+
+				// Calcular la fuerza de drag
+				dragForce = (rigidBodies[i]->velocity*-1) * rigidBodies[i]->hydrodynamicDrag;
+
+				rigidBodies[i]->AddForceToCenter(dragForce);
 			}
 			else
 			{
@@ -85,6 +88,9 @@ void PhysCore::Update(float simulationTime)
 			}
 		}
 
+		// Check if next position is colling
+		fPoint nextPosition = rigidBodies[i]->position + rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);		
+		
 		// Step #3 Integrate with Verlet
 		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
 		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
@@ -272,6 +278,8 @@ COL_TYPE PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger)
 		return COLLISION;
 	}
 
+	// Cliping case
+
 	// No collision case
 	for (int i = 0; i < b1.collisionList.count(); i++)
 	{
@@ -293,7 +301,6 @@ COL_TYPE PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger)
 /// <param name="colPoint"></param>
 void PhysCore::ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint)
 {
-
 	RigidBody* dinBody;
 	RigidBody* staticBody;
 	
@@ -336,6 +343,12 @@ void PhysCore::ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint)
 			fPoint direction = CollisionDir(*dinBody, colPoint);
 			float velMagnitud = b1Vel.magnitude();
 			b1Vel = direction * velMagnitud * b1.restitution;
+		}
+
+		if (b1.shape == ShapeType::RECT)
+		{
+			printf("Can not resolve force rect & rect");
+			return;
 		}
 	}
 	else
