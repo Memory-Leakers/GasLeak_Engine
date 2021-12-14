@@ -40,18 +40,12 @@ void PhysCore::Update(float simulationTime)
 		// Calcular el magnitud del drag
 		magnitudDrag = 0.5f * density * rigidBodies[i]->surface * pow(relativeVelocityModule,2) * rigidBodies[i]->GetDragCoeficient();
 
-		fPoint nor = relativeVelocity.Normalize();
+		fPoint relativeDir = relativeVelocity.Normalize();
 
 		// Calcular la fuerza de drag
-		dragForce = nor * magnitudDrag;
+		dragForce = relativeDir * magnitudDrag;
 
 		rigidBodies[i]->AddForceToCenter(dragForce);
-
-		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
-		rigidBodies[i]->additionalForce = { 0,0 };
-
-		// Step #2 Calculate Newton's Second law (acceleration)
-		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
 
 		// Chek if collision Stay
 		for (int j = 0; j < rigidBodies[i]->collisionList.count() ; j++)
@@ -69,6 +63,8 @@ void PhysCore::Update(float simulationTime)
 				// 1 = 100%
 				float submerge = submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
 
+				printf("%f\n", submerge);
+
 				// *2 = 200% para que pueda subir
 				magnitudbuoyancy = density * mod * submerge * 2 * rigidBodies[i]->GetGravityScale();
 
@@ -76,22 +72,40 @@ void PhysCore::Update(float simulationTime)
 
 				rigidBodies[i]->AddForceToCenter(buoyancyForce);
 
-				// Calcular la fuerza de drag
+				// Calcular la fuerza de drag hidrodinamica
 				dragForce = (rigidBodies[i]->velocity*-1) * rigidBodies[i]->hydrodynamicDrag;
 
 				rigidBodies[i]->AddForceToCenter(dragForce);
 			}
 			else
 			{
+				printf("aaa");
+				float submerge = submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
+
+				if (submerge >= 1)
+				{
+					
+				}
+
 				fPoint colPoint = CollisionPoint(*rigidBodies[i], *rigidBodies[i]->collisionList[j]);
 				ResolveColForce(*rigidBodies[i], *rigidBodies[i]->collisionList[j], colPoint);
 			}
 		}
 
+		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
+		rigidBodies[i]->additionalForce = { 0,0 };
+
+		// Step #2 Calculate Newton's Second law (acceleration)
+		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
+
 		// Check if next position is colling
 		fPoint nextPosition = rigidBodies[i]->position + rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);		
 		
+		if (abs(rigidBodies[i]->velocity.x) < 0.1f) rigidBodies[i]->velocity.x = 0;
+		if (abs(rigidBodies[i]->velocity.y) < 0.1f) rigidBodies[i]->velocity.y = 0;
+
 		// Step #3 Integrate with Verlet
+		rigidBodies[i]->lastPosition = rigidBodies[i]->position;
 		rigidBodies[i]->position += rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);
 		rigidBodies[i]->velocity += rigidBodies[i]->acceleration * simulationTime;
 	}
@@ -463,6 +477,33 @@ fPoint PhysCore::CollisionDir(RigidBody& b1, fPoint colPoint)
 	return dir;
 }
 
+void PhysCore::ResolveClamping(RigidBody& b1, RigidBody& b2)
+{
+	RigidBody* dinBody;
+	RigidBody* staticBody;
+
+	if (b1.type == RigidBodyType::DYNAMIC && b2.type == RigidBodyType::STATIC)
+	{
+		dinBody = &b1;
+		staticBody = &b2;
+	}
+	else if (b2.type == RigidBodyType::DYNAMIC && b1.type == RigidBodyType::STATIC)
+	{
+		dinBody = &b2;
+		staticBody = &b1;
+	}
+
+	if (dinBody->shape != ShapeType::CIRCLE || staticBody->shape != ShapeType::RECT) 
+	{
+		printf("Can not resolve clamping");
+		return;
+	}
+
+	// calcular interseccion de linea de last position->position y static body
+
+
+}
+
 float PhysCore::submergedVolume(RigidBody* body,RigidBody* water)
 {
 	if (body->shape == ShapeType::CIRCLE)
@@ -472,11 +513,13 @@ float PhysCore::submergedVolume(RigidBody* body,RigidBody* water)
 
 		float bodySubmergedHeight = body->GetPosition().y + body->radius - waterYpos;
 
-		float totalsubmergedarea = bodySubmergedHeight * body->radius * 2;
+		if (bodySubmergedHeight > body->radius*2) return 1.0f;
 
-		totalsubmergedarea /= body->radius * 2 * body->radius * 2;
+		float totalsubmergedarea = bodySubmergedHeight * body->radius*2;
 
-		return totalsubmergedarea * SQUARETOCIRCLE;
+		totalsubmergedarea /= (body->radius*2 * body->radius*2);
+
+		return totalsubmergedarea;
 	}
 
 	if (body->shape == ShapeType::RECT)

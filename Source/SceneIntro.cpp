@@ -21,14 +21,14 @@ bool SceneIntro::Start()
 
 	world = new PhysCore({ 0, 10});
 
-	body = new RigidBody({ 200, 600 }, RigidBodyType::WATER, rect.w, rect.h);
+	body = new RigidBody({ 200, 600 }, RigidBodyType::STATIC, rect.w, rect.h);
 	
 	body2 = new RigidBody({ 300, 240 }, RigidBodyType::STATIC, rect2.w, rect2.h);
 
-	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 20);
+	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 2);
 	//body3->SetMass(20);
 	body3->SetRestitution(0.7f);
-	body3->SetDragCoeficient(0);
+	body3->SetDragCoeficient(0.01f);
 	body3->SetGravityScale(4);
 	body3->SetHydrodynamicDragCoeficient(0.3f);
 

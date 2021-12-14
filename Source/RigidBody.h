@@ -21,6 +21,7 @@ class RigidBody
 private:
 	// Position
 	fPoint position = { 0.0, 0.0 };
+	fPoint lastPosition = { 0.0,0.0 };
 
 	//Properties
 	float restitution = 0.0f;

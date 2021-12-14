@@ -59,6 +59,8 @@ public:
 
 	fPoint CollisionDir(RigidBody& b1, fPoint colPoint);
 
+	void ResolveClamping(RigidBody& b1, RigidBody& b2);
+
 private:
 
 	fPoint gravity;
