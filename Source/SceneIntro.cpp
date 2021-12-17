@@ -23,13 +23,13 @@ bool SceneIntro::Start()
 
 	body = new RigidBody({ 200, 600 }, RigidBodyType::STATIC, rect.w, rect.h);
 	
-	body2 = new RigidBody({ 300, 240 }, RigidBodyType::STATIC, 20);
+	body2 = new RigidBody({ 300, 240 }, RigidBodyType::STATIC, rect2.w, rect2.h);
 
-	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 10);
+	body3 = new RigidBody({ 300, 200 }, RigidBodyType::DYNAMIC, 2);
 	//body3->SetMass(20);
 	body3->SetRestitution(0.7f);
 	body3->SetDragCoeficient(0.01f);
-	body3->SetGravityScale(4);
+	body3->SetGravityScale(8);
 	body3->SetHydrodynamicDragCoeficient(0.3f);
 	body3->SetFriction(1.0f);
 	

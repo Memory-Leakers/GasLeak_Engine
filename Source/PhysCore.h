@@ -2,14 +2,6 @@
 #include "RigidBody.h"
 #include "List.h"
 
-enum COL_TYPE
-{
-	NONE = 0,
-	COLLISION,
-	TRIGGER
-};
-
-
 class PhysCore
 {
 public:
@@ -55,11 +47,24 @@ public:
 		return gravity;
 	}
 
+	// Detect collision point in 2 shapes
 	fPoint CollisionPoint(RigidBody& b1, RigidBody& b2);
 
+	// Dectet center of shape -> collision point(any point) vector
 	fPoint CollisionDir(RigidBody& b1, fPoint colPoint);
 
-	void ResolveClamping(RigidBody& b1, RigidBody& b2);
+	// Resolve clamping case
+	void ResolveClippng(RigidBody& b1, RigidBody& b2);
+
+	/// <summary>
+	/// Check intersectionPoint of 2 lines
+	/// </summary>
+	/// <param name="p1">init of line 1</param>
+	/// <param name="p2">end of line 1</param>
+	/// <param name="p3">init of line 2</param>
+	/// <param name="p4">end of line 2</param>
+	/// <returns></returns>
+	fPoint IntersectionPoint(fPoint p1, fPoint p2, fPoint p3, fPoint p4);
 
 private:
 
@@ -67,7 +72,7 @@ private:
 
 	float density = 1.0f;
 
-	fPoint wind = { 0,0 };
+	fPoint wind = { 0, 0};
 
 	int resolveColForce = 5;
 

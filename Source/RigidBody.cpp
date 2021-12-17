@@ -9,21 +9,23 @@ RigidBody::~RigidBody()
 {
 }
 
-RigidBody::RigidBody(fPoint pos, RigidBodyType type, float width, float height)
+RigidBody::RigidBody(fPoint pos, RigidBodyType type, float width, float height, COL_TYPE colType)
 {
 	this->position = pos;
 	this->type = type;
 	this->shape = ShapeType::RECT;
 	this->width = width;
 	this->height = height;
+	this->colType = colType;
 }
 
-RigidBody::RigidBody(fPoint pos, RigidBodyType type, float radius)
+RigidBody::RigidBody(fPoint pos, RigidBodyType type, float radius, COL_TYPE colType)
 {
 	this->position = pos;
 	this->type = type;
 	this->shape = ShapeType::CIRCLE;
 	this->radius = radius;
+	this->colType = colType;
 }
 
 RigidBody::RigidBody(RigidBody& copy)

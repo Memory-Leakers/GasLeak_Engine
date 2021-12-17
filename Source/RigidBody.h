@@ -7,14 +7,21 @@ enum RigidBodyType
 	STATIC,
 	DYNAMIC,
 	KINEMATIC,
-	WATER,
+	WATER
 };
 
 enum class ShapeType
 {
 	CIRCLE,
-	RECT,
+	RECT
 };	
+
+enum class COL_TYPE
+{
+	NONE = 0,
+	COLLISION,
+	TRIGGER
+};
 
 class RigidBody 
 {
@@ -40,6 +47,7 @@ private:
 
 	RigidBodyType type = STATIC;
 	ShapeType shape = ShapeType::RECT;
+	COL_TYPE colType = COL_TYPE::COLLISION;
 
 	float maximumVelocity = 1000.0f;
 
@@ -55,9 +63,9 @@ public:
 
 	~RigidBody();
 
-	RigidBody(fPoint pos, RigidBodyType type,float width,float height);
+	RigidBody(fPoint pos, RigidBodyType type,float width,float height, COL_TYPE colType = COL_TYPE::COLLISION);
 
-	RigidBody(fPoint pos, RigidBodyType type, float radius);
+	RigidBody(fPoint pos, RigidBodyType type, float radius, COL_TYPE colType = COL_TYPE::COLLISION);
 
 	RigidBody(RigidBody& copy);
 
@@ -151,7 +159,7 @@ public:
 	{
 		this->rotation = rotation;
 	}
-	int GetRadius()
+	float GetRadius()
 	{
 		return radius;
 	}
