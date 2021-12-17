@@ -47,6 +47,12 @@ void PhysCore::Update(float simulationTime)
 
 		rigidBodies[i]->AddForceToCenter(dragForce);
 
+		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
+		rigidBodies[i]->additionalForce = { 0,0 };
+
+		// Step #2 Calculate Newton's Second law (acceleration)
+		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
+
 		// Chek if collision Stay
 		for (int j = 0; j < rigidBodies[i]->collisionList.count() ; j++)
 		{
@@ -79,24 +85,21 @@ void PhysCore::Update(float simulationTime)
 			}
 			else
 			{
-				printf("aaa");
-				float submerge = submergedVolume(rigidBodies[i], rigidBodies[i]->collisionList[j]);
-
-				if (submerge >= 1)
+				//FUERZA DE FRICCIÓN
+				if (rigidBodies[i]->collisionList[j]->type == RigidBodyType::STATIC)
 				{
-					
-				}
+					dragForce = (rigidBodies[i]->GetLinearVelocity() * -1) * rigidBodies[i]->GetFriction();
 
+					rigidBodies[i]->AddForceToCenter(dragForce);
+				}
+				//IMPEDIR QUE ENTRE DENTRO DE UN RIGIDBODY
 				fPoint colPoint = CollisionPoint(*rigidBodies[i], *rigidBodies[i]->collisionList[j]);
 				ResolveColForce(*rigidBodies[i], *rigidBodies[i]->collisionList[j], colPoint);
+
 			}
 		}
 
-		rigidBodies[i]->totalForce = rigidBodies[i]->additionalForce;
-		rigidBodies[i]->additionalForce = { 0,0 };
-
-		// Step #2 Calculate Newton's Second law (acceleration)
-		rigidBodies[i]->acceleration = rigidBodies[i]->totalForce / rigidBodies[i]->mass;
+		
 
 		// Check if next position is colling
 		fPoint nextPosition = rigidBodies[i]->position + rigidBodies[i]->velocity * simulationTime + rigidBodies[i]->acceleration * (simulationTime * simulationTime * 0.5f);		
@@ -493,11 +496,11 @@ void PhysCore::ResolveClamping(RigidBody& b1, RigidBody& b2)
 		staticBody = &b1;
 	}
 
-	if (dinBody->shape != ShapeType::CIRCLE || staticBody->shape != ShapeType::RECT) 
+	/*if (dinBody->shape != ShapeType::CIRCLE || staticBody->shape != ShapeType::RECT) 
 	{
 		printf("Can not resolve clamping");
 		return;
-	}
+	}*/
 
 	// calcular interseccion de linea de last position->position y static body
 

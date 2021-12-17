@@ -112,7 +112,6 @@ public:
 	{
 		this->coefficientDrag = drag;
 	}
-
 	float GetHydrodynamicDragCoeficient()
 	{
 		return hydrodynamicDrag;
