@@ -2,7 +2,7 @@
 #include "Point.h"
 #include "List.h"
 
-enum RigidBodyType
+enum class RigidBodyType
 {
 	STATIC,
 	DYNAMIC,
@@ -30,7 +30,7 @@ private:
 	fPoint position = { 0.0, 0.0 };
 	fPoint lastPosition = { 0.0,0.0 };
 
-	//Properties
+	// Properties
 	float restitution = 0.0f;
 	float friction = 0.0f;
 	float coefficientDrag = 0.0f;
@@ -45,7 +45,8 @@ private:
 	float height = 1.0f;
 	float radius = 1.0f;
 
-	RigidBodyType type = STATIC;
+	// Tags
+	RigidBodyType type = RigidBodyType::STATIC;
 	ShapeType shape = ShapeType::RECT;
 	COL_TYPE colType = COL_TYPE::COLLISION;
 
@@ -55,9 +56,6 @@ private:
 	fPoint additionalForce = { 0.0, 0.0 };
 
 	List<RigidBody*> collisionList;
-
-	iPoint ColDir = { 0, 0 };
-
 public:
 	RigidBody();
 
@@ -75,8 +73,37 @@ public:
 
 	void OnCollisionExit(RigidBody* col);
 
+	void OnTriggerEnter(RigidBody* col);
+
+	void OnTriggerStay(RigidBody* col);
+
+	void OnTriggerExit(RigidBody* col);
+
 	void AddForceToCenter(fPoint force);
 
+	// Check if point is contain in this body shape
+	bool Contains(fPoint pos)
+	{
+		if (shape == ShapeType::RECT)
+		{
+			if (pos.x >= position.x - width / 2 && pos.x <= position.x + width / 2 &&
+				pos.y >= position.y - height / 2 && pos.y <= position.y + height / 2)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (sqrt(pow(position.x - pos.x, 2) + pow(position.y - pos.y, 2)) <= radius)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// Get & Set
 	fPoint GetPosition()
 	{
 		return position;
@@ -85,6 +112,7 @@ public:
 	{
 		this->position = pos;
 	}
+
 	float GetRestitution()
 	{
 		return restitution;
@@ -120,6 +148,7 @@ public:
 	{
 		this->coefficientDrag = drag;
 	}
+
 	float GetHydrodynamicDragCoeficient()
 	{
 		return hydrodynamicDrag;
@@ -145,7 +174,6 @@ public:
 	{
 		this->gravityScale = gravityScale;
 	}
-
 	float GetGravityScale()
 	{
 		return gravityScale;
@@ -159,32 +187,11 @@ public:
 	{
 		this->rotation = rotation;
 	}
+
 	float GetRadius()
 	{
 		return radius;
 	}
-
-	bool Contains(fPoint pos)
-	{
-		if(shape == ShapeType::RECT)
-		{
-			if (pos.x >= position.x - width/2 && pos.x <= position.x + width/2 &&
-				pos.y >= position.y - height/2 && pos.y <= position.y + height/2)
-			{
-				return true;
-			}
-		}
-		else
-		{
-			if (sqrt(pow(position.x - pos.x, 2) + pow(position.y - pos.y, 2)) <= radius)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
 private:
 	
 	void ResetForces();

@@ -1,6 +1,5 @@
 #pragma once
 #include "RigidBody.h"
-#include "List.h"
 
 class PhysCore
 {
@@ -17,11 +16,11 @@ public:
 
 	void DeleteRigidBody(RigidBody* body);
 
-	COL_TYPE BoxColBox(RigidBody& b1, RigidBody& b2, bool trigger = false);
+	void BoxColBox(RigidBody& b1, RigidBody& b2, bool trigger = false);
 
-	COL_TYPE CircleColCircle(RigidBody& b1, RigidBody& b2, bool trigger = false);
+	void CircleColCircle(RigidBody& b1, RigidBody& b2, bool trigger = false);
 
-	COL_TYPE BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger = false);
+	void BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger = false);
 
 	void ResolveColForce(RigidBody& b1, RigidBody& b2, fPoint colPoint);
 
@@ -54,7 +53,7 @@ public:
 	fPoint CollisionDir(RigidBody& b1, fPoint colPoint);
 
 	// Resolve clamping case
-	void ResolveClippng(RigidBody& b1, RigidBody& b2);
+	void ResolveClipping(RigidBody& b1, RigidBody& b2);
 
 	/// <summary>
 	/// Check intersectionPoint of 2 lines

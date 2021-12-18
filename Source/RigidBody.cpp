@@ -61,6 +61,21 @@ void RigidBody::OnCollisionExit(RigidBody* col)
 	printf("Col exit\n");
 }
 
+void RigidBody::OnTriggerEnter(RigidBody* col)
+{
+	printf("Trigger enter\n");
+}
+
+void RigidBody::OnTriggerStay(RigidBody* col)
+{
+	printf("Trigger stay\n");
+}
+
+void RigidBody::OnTriggerExit(RigidBody* col)
+{
+	printf("Trigger exit\n");
+}
+
 void RigidBody::AddForceToCenter(fPoint force)
 {
 	additionalForce += force;
