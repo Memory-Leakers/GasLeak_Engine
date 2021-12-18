@@ -96,6 +96,7 @@ void PhysCore::Update(float simulationTime)
 					// Clipping case!!!
 					if (rigidBodies[i]->colType == COL_TYPE::COLLISION && rigidBodies[i]->collisionList[j]->type == RigidBodyType::STATIC)
 					{
+						if (rigidBodies[i]->collisionList[j]->Contains(rigidBodies[i]->position))
 						ResolveClipping(*rigidBodies[i], *rigidBodies[i]->collisionList[j]);
 					}
 					//FUERZA DE FRICCIÓN
@@ -325,7 +326,7 @@ void PhysCore::BoxColCircle(RigidBody& b1, RigidBody& b2, bool trigger)
 
 	colPoint = CollisionPoint(*circ, *rect);
 
-	distance = (colPoint - circ->GetPosition()).magnitude();
+	distance = (colPoint - circ->position).magnitude();
 
 	// Collision case
 	if (distance <= circ->GetRadius())
